@@ -63,12 +63,12 @@
 <meta property="og:site_name" content="yencheng&#39;s code blog">
 <meta property="og:description" content="將路由設計與應用的進入點分開通常應用程式會有一個進入點(ex. app.js)，藉此驅動其他的程式碼，如果將路由邏輯寫在同個檔案會使單一檔案變得很攏長。幸好express.js提供很方便的方法讓我們簡單使用自己所創造的路由 假設我們將管理員使用的路由寫在admin.js，把給使用者利用的路由寫在shop.js檔案">
 <meta property="og:locale" content="en">
-<meta property="og:image" content="https://octodex.github.com/images/minion.png">
-<meta property="og:updated_time" content="2019-09-05T11:10:56.242Z">
+<meta property="og:image" content="http://yencheng.com/2019/09/05/nodeJS/p1.png">
+<meta property="og:updated_time" content="2019-09-05T14:25:25.818Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="nodeJS - use express.js to create routes">
 <meta name="twitter:description" content="將路由設計與應用的進入點分開通常應用程式會有一個進入點(ex. app.js)，藉此驅動其他的程式碼，如果將路由邏輯寫在同個檔案會使單一檔案變得很攏長。幸好express.js提供很方便的方法讓我們簡單使用自己所創造的路由 假設我們將管理員使用的路由寫在admin.js，把給使用者利用的路由寫在shop.js檔案">
-<meta name="twitter:image" content="https://octodex.github.com/images/minion.png">
+<meta name="twitter:image" content="http://yencheng.com/2019/09/05/nodeJS/p1.png">
   <link rel="canonical" href="http://yencheng.com/2019/09/05/nodeJS/">
 
 
@@ -259,7 +259,7 @@
                 
               
 
-              <time title="Created: 2019-09-05 15:39:13 / Modified: 20:10:56" itemprop="dateCreated datePublished" datetime="2019-09-05T15:39:13+09:00">2019-09-05</time>
+              <time title="Created: 2019-09-05 15:39:13 / Modified: 23:25:25" itemprop="dateCreated datePublished" datetime="2019-09-05T15:39:13+09:00">2019-09-05</time>
             </span>
           
             
@@ -320,8 +320,12 @@
 
 <hr>
 <h3 id="回傳html檔案及正確的檔案路徑"><a href="#回傳html檔案及正確的檔案路徑" class="headerlink" title="回傳html檔案及正確的檔案路徑"></a>回傳html檔案及正確的檔案路徑</h3><p>回傳完整的html檔案可以使用res.sendFile(‘路徑’)，但這個路徑必須以作業系統的根部路為基礎的絕對路徑，且路徑的顯示方式可能因作業系統不同而不同，所以我們要使用另一個nodeJS core module，path</p>
-<p>假設我們專案內檔案結構如下圖<br><img src="https://octodex.github.com/images/minion.png" alt="Minion"></p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> path = <span class="built_in">require</span>(<span class="string">'path'</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> express = <span class="built_in">require</span>(<span class="string">'express'</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> router = express.Router();</span><br><span class="line"><span class="comment">//__dirname為根據根目錄到該檔案的相對路徑</span></span><br><span class="line">router.get(<span class="string">'/add-product'</span>, (req, res, next) =&gt; &#123;</span><br><span class="line">    res.sendFile(path.join(__dirname, <span class="string">'../'</span>, <span class="string">'views'</span>, <span class="string">'add-product.html'</span>))</span><br><span class="line">&#125;);</span><br><span class="line">  </span><br><span class="line">router.post(<span class="string">'/product'</span>, (req, res, next) =&gt; &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(req.body);</span><br><span class="line">    res.redirect(<span class="string">'/'</span>);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="built_in">module</span>.exports = router;</span><br></pre></td></tr></table></figure>
+<p>假設我們專案內檔案結構如下圖</p>
+<div align="left">
+    <img src="p1.png" style="width:50%; display:inline;">
+</div>
+
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> path = <span class="built_in">require</span>(<span class="string">'path'</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> express = <span class="built_in">require</span>(<span class="string">'express'</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> router = express.Router();</span><br><span class="line"><span class="comment">//__dirname為根據根目錄到該檔案的絕對路徑</span></span><br><span class="line">router.get(<span class="string">'/add-product'</span>, (req, res, next) =&gt; &#123;</span><br><span class="line">    res.sendFile(path.join(__dirname, <span class="string">'../'</span>, <span class="string">'views'</span>, <span class="string">'add-product.html'</span>))</span><br><span class="line">&#125;);</span><br><span class="line">  </span><br><span class="line">router.post(<span class="string">'/product'</span>, (req, res, next) =&gt; &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(req.body);</span><br><span class="line">    res.redirect(<span class="string">'/'</span>);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="built_in">module</span>.exports = router;</span><br></pre></td></tr></table></figure>
 
 
     </div>
