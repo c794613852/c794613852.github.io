@@ -1,332 +1,1277 @@
 <!DOCTYPE html>
-<html>
-<head><meta name="generator" content="Hexo 3.8.0">
-  <meta charset="utf-8">
-  
 
-  
-  <title>yencheng&#39;s code blog</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+
+
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.8.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.4.0">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.4.0">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.4.0">
+  <link rel="mask-icon" href="/images/logo.svg?v=7.4.0" color="#222">
+
+<link rel="stylesheet" href="/css/main.css?v=7.4.0">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.4.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: '',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: 'Copy',
+      copy_success: 'Copied',
+      copy_failure: 'Copy failed'
+    },
+    sidebarPadding: 40
+  };
+</script>
+
   <meta property="og:type" content="website">
 <meta property="og:title" content="yencheng&#39;s code blog">
 <meta property="og:url" content="http://yencheng.com/index.html">
 <meta property="og:site_name" content="yencheng&#39;s code blog">
-<meta property="og:locale" content="zh">
+<meta property="og:locale" content="en">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="yencheng&#39;s code blog">
+  <link rel="canonical" href="http://yencheng.com/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: true,
+    isPost: false,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>yencheng's code blog</title>
   
-    <link rel="alternate" href="/atom.xml" title="yencheng&#39;s code blog" type="application/atom+xml">
-  
-  
-    <link rel="icon" href="/favicon.png">
-  
-  
-    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
-  
-  <link rel="stylesheet" href="/css/style.css">
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
 </head>
-</html>
-<body>
-  <div id="container">
-    <div id="wrap">
-      <header id="header">
-  <div id="banner"></div>
-  <div id="header-outer" class="outer">
-    <div id="header-title" class="inner">
-      <h1 id="logo-wrap">
-        <a href="/" id="logo">yencheng&#39;s code blog</a>
-      </h1>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">yencheng's code blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
       
-    </div>
-    <div id="header-inner" class="inner">
-      <nav id="main-nav">
-        <a id="main-nav-toggle" class="nav-icon"></a>
+      
+      
         
-          <a class="main-nav-link" href="/">Home</a>
-        
-          <a class="main-nav-link" href="/archives">Archives</a>
-        
-      </nav>
-      <nav id="sub-nav">
-        
-          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
-        
-        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
-      </nav>
-      <div id="search-form-wrap">
-        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yencheng.com"></form>
-      </div>
-    </div>
-  </div>
-</header>
-      <div class="outer">
-        <section id="main">
-  
-    <article id="post-layout" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2019/06/15/layout/" class="article-date">
-  <time datetime="2019-06-15T01:10:25.000Z" itemprop="datePublished">2019-06-15</time>
-</a>
+        <li class="menu-item menu-item-home">
+      
     
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/切版/">切版</a>
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>Home</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-about">
+      
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>About</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-tags">
+      
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>Tags</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-categories">
+      
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>Categories</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-archives">
+      
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>Archives</a>
+
+  </li>
+  </ul>
+
+</nav>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
   </div>
 
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/06/15/layout/">切版練習2</a>
-    </h1>
-  
 
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+            
+
+          <div id="content" class="content">
+            
+  <div id="posts" class="posts-expand">
+        <article itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block home">
+    <link itemprop="mainEntityOfPage" href="http://yencheng.com/2019/09/05/nodeJS/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="YENCHENG LIU">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="yencheng's code blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+            
+            <a href="/2019/09/05/nodeJS/" class="post-title-link" itemprop="url">nodeJS - use express.js to create routes</a>
+          
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              
+                
+              
+
+              <time title="Created: 2019-09-05 15:39:13 / Modified: 20:10:56" itemprop="dateCreated datePublished" datetime="2019-09-05T15:39:13+09:00">2019-09-05</time>
+            </span>
+          
+            
+
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/NodeJS/" itemprop="url" rel="index"><span itemprop="name">NodeJS</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+
+        </div>
       </header>
+
     
-    <div class="article-entry" itemprop="articleBody">
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
       
-        <h3 id="這次要模仿的範例一樣是-FreeCodeCamp-中的-作業範例-經過一點小嘗試後，決定以下圖-html-架構來切版"><a href="#這次要模仿的範例一樣是-FreeCodeCamp-中的-作業範例-經過一點小嘗試後，決定以下圖-html-架構來切版" class="headerlink" title="這次要模仿的範例一樣是 FreeCodeCamp 中的 作業範例 經過一點小嘗試後，決定以下圖 html 架構來切版"></a>這次要模仿的範例一樣是 FreeCodeCamp 中的 <a href="https://codepen.io/freeCodeCamp/full/VPaoNP" target="_blank" rel="noopener">作業範例</a> 經過一點小嘗試後，決定以下圖 html 架構來切版</h3><div align="center">
+          <hr>
+<h1 id="將路由設計與應用的進入點分開"><a href="#將路由設計與應用的進入點分開" class="headerlink" title="將路由設計與應用的進入點分開"></a>將路由設計與應用的進入點分開</h1><p>通常應用程式會有一個進入點(ex. app.js)，藉此驅動其他的程式碼，如果將路由邏輯寫在同個檔案會使單一檔案變得很攏長。幸好express.js提供很方便的方法讓我們簡單使用自己所創造的路由</p>
+<p>假設我們將管理員使用的路由寫在admin.js，把給使用者利用的路由寫在shop.js檔案</p>
+          <!--noindex-->
+          
+            <div class="post-button text-center">
+              <a class="btn" href="/2019/09/05/nodeJS/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+          <div class="post-eof"></div>
+        
+      </footer>
+  </div>
+  
+  
+  
+  </article>
+
+    
+        <article itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block home">
+    <link itemprop="mainEntityOfPage" href="http://yencheng.com/2019/09/02/nodeJS/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="YENCHENG LIU">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="yencheng's code blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+            
+            <a href="/2019/09/02/nodeJS/" class="post-title-link" itemprop="url">Use node.js to create web server</a>
+          
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              
+                
+              
+
+              <time title="Created: 2019-09-02 17:13:08" itemprop="dateCreated datePublished" datetime="2019-09-02T17:13:08+09:00">2019-09-02</time>
+            </span>
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2019-09-05 20:49:44" itemprop="dateModified" datetime="2019-09-05T20:49:44+09:00">2019-09-05</time>
+              </span>
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/NodeJS/" itemprop="url" rel="index"><span itemprop="name">NodeJS</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <hr>
+<h1 id="Use-nodejs-to-create-web-server"><a href="#Use-nodejs-to-create-web-server" class="headerlink" title="Use nodejs to create web server"></a>Use nodejs to create web server</h1><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//need to include nodejs core moudul 'http'</span></span><br><span class="line"><span class="keyword">const</span> http = <span class="built_in">require</span>(<span class="string">'http'</span>);</span><br><span class="line"><span class="comment">//and then create a listener to receive incomming message and return response object</span></span><br><span class="line"><span class="keyword">const</span> server = http.createServer(<span class="function">(<span class="params">req, res</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(req);</span><br><span class="line">&#125;)</span><br><span class="line"><span class="comment">//start a process to keep it running to listen for incomming requests. Event loop will keep running</span></span><br><span class="line"><span class="comment">//first argument accept the port which can listen for the requests, if not, then defult port 80 will be used</span></span><br><span class="line">server.listen(<span class="number">3000</span>);</span><br></pre></td></tr></table></figure>
+          <!--noindex-->
+          
+            <div class="post-button text-center">
+              <a class="btn" href="/2019/09/02/nodeJS/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+          <div class="post-eof"></div>
+        
+      </footer>
+  </div>
+  
+  
+  
+  </article>
+
+    
+        <article itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block home">
+    <link itemprop="mainEntityOfPage" href="http://yencheng.com/2019/08/28/mongodb/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="YENCHENG LIU">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="yencheng's code blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+            
+            <a href="/2019/08/28/mongodb/" class="post-title-link" itemprop="url">mongoDB 基礎3</a>
+          
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              
+                
+              
+
+              <time title="Created: 2019-08-28 15:43:25" itemprop="dateCreated datePublished" datetime="2019-08-28T15:43:25+09:00">2019-08-28</time>
+            </span>
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2019-09-05 20:51:23" itemprop="dateModified" datetime="2019-09-05T20:51:23+09:00">2019-09-05</time>
+              </span>
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/MongoDB/" itemprop="url" rel="index"><span itemprop="name">MongoDB</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <hr>
+<h1 id="Authentication-and-Authorization"><a href="#Authentication-and-Authorization" class="headerlink" title="Authentication and Authorization"></a>Authentication and Authorization</h1><table>
+<thead>
+<tr>
+<th align="left">Authentication</th>
+<th align="left">Authorization</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">識別對資料庫來說有效的使用者</td>
+<td align="left">識別有效的使用者中他們能做什麼操作</td>
+</tr>
+<tr>
+<td align="left">比喻: 例如一家公司的員工被允許進入辦公室</td>
+<td align="left">比喻: 公司的員工帳號允許進入辦公室並處理訂單</td>
+</tr>
+</tbody></table>
+<ul>
+<li>每個user有專屬的roles，roles包含了一個或多個privileges，而privileges定義了該user能進入那些database和進行那些操作</li>
+<li>Privileges<ul>
+<li>Resources: 能進入的database、collections</li>
+<li>Actions: 能進行的操作，例如insert()</li>
+</ul>
+</li>
+<li>資料庫的使用者可以有不同的分工 (Roles)，被給予的權限也不一樣(可以避免意外的發生)</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th align="center">Administrator</th>
+<th align="center">Developer/Your app</th>
+<th align="center">Data Scientist</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">能管理資料庫的設定，新增使用者</td>
+<td align="center">需要進行新增、刪除、閱讀等操作(CRUD)</td>
+<td align="center">需要能夠抓取資料</td>
+</tr>
+<tr>
+<td align="center">不需要新增或取用資料</td>
+<td align="center">不需要新增使用者或管理資料庫設定</td>
+<td align="center">不需要進行新增、刪除等操作</td>
+</tr>
+</tbody></table>
+          <!--noindex-->
+          
+            <div class="post-button text-center">
+              <a class="btn" href="/2019/08/28/mongodb/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+          <div class="post-eof"></div>
+        
+      </footer>
+  </div>
+  
+  
+  
+  </article>
+
+    
+        <article itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block home">
+    <link itemprop="mainEntityOfPage" href="http://yencheng.com/2019/08/23/mongodb/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="YENCHENG LIU">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="yencheng's code blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+            
+            <a href="/2019/08/23/mongodb/" class="post-title-link" itemprop="url">mongoDB 基礎2</a>
+          
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              
+                
+              
+
+              <time title="Created: 2019-08-23 15:36:24" itemprop="dateCreated datePublished" datetime="2019-08-23T15:36:24+09:00">2019-08-23</time>
+            </span>
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2019-09-05 20:51:03" itemprop="dateModified" datetime="2019-09-05T20:51:03+09:00">2019-09-05</time>
+              </span>
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/MongoDB/" itemprop="url" rel="index"><span itemprop="name">MongoDB</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <hr>
+<h1 id="Geospatial-Data"><a href="#Geospatial-Data" class="headerlink" title="Geospatial Data"></a>Geospatial Data</h1><h2 id="Geo-json架構"><a href="#Geo-json架構" class="headerlink" title="Geo json架構"></a>Geo json架構</h2><ul>
+<li>必須是一個stucture結構</li>
+<li>cordinate的第一個屬性是經度，第二個為緯度</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//type與coordinate是一定要有的</span></span><br><span class="line">db.places.insertOne(&#123;<span class="attr">name</span>: <span class="string">"Califorina Academy"</span>, <span class="attr">location</span>: &#123;<span class="attr">type</span>: <span class="string">"Point"</span>, <span class="attr">coordinates</span>: [<span class="number">-122.4724356</span>, <span class="number">37.7672544</span>]&#125;&#125;)</span><br></pre></td></tr></table></figure>
+          <!--noindex-->
+          
+            <div class="post-button text-center">
+              <a class="btn" href="/2019/08/23/mongodb/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+          <div class="post-eof"></div>
+        
+      </footer>
+  </div>
+  
+  
+  
+  </article>
+
+    
+        <article itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block home">
+    <link itemprop="mainEntityOfPage" href="http://yencheng.com/2019/08/10/mongodb/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="YENCHENG LIU">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="yencheng's code blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+            
+            <a href="/2019/08/10/mongodb/" class="post-title-link" itemprop="url">mongoDB 基礎</a>
+          
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              
+                
+              
+
+              <time title="Created: 2019-08-10 00:41:21" itemprop="dateCreated datePublished" datetime="2019-08-10T00:41:21+09:00">2019-08-10</time>
+            </span>
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2019-09-05 20:50:45" itemprop="dateModified" datetime="2019-09-05T20:50:45+09:00">2019-09-05</time>
+              </span>
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/MongoDB/" itemprop="url" rel="index"><span itemprop="name">MongoDB</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <hr>
+<h1 id="啟動mongoDB-server"><a href="#啟動mongoDB-server" class="headerlink" title="啟動mongoDB server"></a>啟動mongoDB server</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">mongod --dbpath &quot;路徑&quot; //指定資料的存放路徑</span><br><span class="line">mongod --logpath &quot;路徑&quot; //指定log檔的存放路徑(必須是.log)，與--dbpath可以一起執行</span><br><span class="line">mongod --port &quot;port&quot; //指定mongodb伺服器的端口</span><br><span class="line">mongod --fork --logpath //讓mongo server在背景執行(不用再另外開個cmd，所以需要指定log路徑來輸出log)，只能在Unix和Mac環境使用</span><br><span class="line">net start MongoDB //跟上面一樣讓mongo server在背景執行(windows環境)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>終止mongo server</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">net stop MongoDB //windows</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>使用mongo shell終止mongo server</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">use admin <span class="comment">//進入admin collection</span></span><br><span class="line">db.shutdownServer()</span><br></pre></td></tr></table></figure>
+          <!--noindex-->
+          
+            <div class="post-button text-center">
+              <a class="btn" href="/2019/08/10/mongodb/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+          <div class="post-eof"></div>
+        
+      </footer>
+  </div>
+  
+  
+  
+  </article>
+
+    
+        <article itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block home">
+    <link itemprop="mainEntityOfPage" href="http://yencheng.com/2019/07/09/japan-voc/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="YENCHENG LIU">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="yencheng's code blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+            
+            <a href="/2019/07/09/japan-voc/" class="post-title-link" itemprop="url">日本IT用語對照</a>
+          
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              
+                
+              
+
+              <time title="Created: 2019-07-09 17:21:51" itemprop="dateCreated datePublished" datetime="2019-07-09T17:21:51+09:00">2019-07-09</time>
+            </span>
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2019-09-05 20:50:26" itemprop="dateModified" datetime="2019-09-05T20:50:26+09:00">2019-09-05</time>
+              </span>
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Japan/" itemprop="url" rel="index"><span itemprop="name">Japan</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <hr>
+<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>今年5月底開始在日本工作，日本的許多專業用語是使用片假名發音，或許原本知道的單詞會因此而聽不懂，或是專業用語不是直接從英文轉變，所以此筆記是記錄日本的IT專業用語與中文或英文的對照</p>
+          <!--noindex-->
+          
+            <div class="post-button text-center">
+              <a class="btn" href="/2019/07/09/japan-voc/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+          <div class="post-eof"></div>
+        
+      </footer>
+  </div>
+  
+  
+  
+  </article>
+
+    
+        <article itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block home">
+    <link itemprop="mainEntityOfPage" href="http://yencheng.com/2019/06/15/layout/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="YENCHENG LIU">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="yencheng's code blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+            
+            <a href="/2019/06/15/layout/" class="post-title-link" itemprop="url">切版練習2</a>
+          
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              
+                
+              
+
+              <time title="Created: 2019-06-15 10:10:25" itemprop="dateCreated datePublished" datetime="2019-06-15T10:10:25+09:00">2019-06-15</time>
+            </span>
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2019-09-05 20:49:52" itemprop="dateModified" datetime="2019-09-05T20:49:52+09:00">2019-09-05</time>
+              </span>
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/切版/" itemprop="url" rel="index"><span itemprop="name">切版</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p> 這次要模仿的範例一樣是 FreeCodeCamp 中的 <a href="https://codepen.io/freeCodeCamp/full/VPaoNP" target="_blank" rel="noopener">作業範例</a> 經過一點小嘗試後，決定以下圖 html 架構來切版</p>
+<div align="center">
     <img src="p1.jpg" style="width:50%; display:inline;"><img src="p2.jpg" style="width:50%; display:inline;">    
 </div>
-
-<h3 id="剛開始嘗試主要遇到的問題是，要如何讓左邊問卷題目的部分全都靠右對齊，然後又要讓右邊填寫欄的部分靠左對齊，最後決定以一個-row為一個-div-，裡面左右兩邊再用各一個-div-包住後-display-的部分改為-inline-block-，html-架構及-css-如下程式碼所示，div-預設-display-為一個-block-，也就是一個-div-就會使用一個橫列，不會跟其他-block-屬性的物件並排，-inline-block-可以讓彼此互相並排。"><a href="#剛開始嘗試主要遇到的問題是，要如何讓左邊問卷題目的部分全都靠右對齊，然後又要讓右邊填寫欄的部分靠左對齊，最後決定以一個-row為一個-div-，裡面左右兩邊再用各一個-div-包住後-display-的部分改為-inline-block-，html-架構及-css-如下程式碼所示，div-預設-display-為一個-block-，也就是一個-div-就會使用一個橫列，不會跟其他-block-屬性的物件並排，-inline-block-可以讓彼此互相並排。" class="headerlink" title="剛開始嘗試主要遇到的問題是，要如何讓左邊問卷題目的部分全都靠右對齊，然後又要讓右邊填寫欄的部分靠左對齊，最後決定以一個 row為一個 div ，裡面左右兩邊再用各一個 div 包住後 display 的部分改為 inline-block ，html 架構及 css 如下程式碼所示，div 預設 display 為一個 block ，也就是一個 div 就會使用一個橫列，不會跟其他 block 屬性的物件並排， inline-block 可以讓彼此互相並排。"></a>剛開始嘗試主要遇到的問題是，要如何讓左邊問卷題目的部分全都靠右對齊，然後又要讓右邊填寫欄的部分靠左對齊，最後決定以一個 row為一個 div ，裡面左右兩邊再用各一個 div 包住後 display 的部分改為 inline-block ，html 架構及 css 如下程式碼所示，div 預設 display 為一個 block ，也就是一個 div 就會使用一個橫列，不會跟其他 block 屬性的物件並排， inline-block 可以讓彼此互相並排。</h3><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"row"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"label"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"right"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"row"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"label"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"right"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"row"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"label"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"right"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"row"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"label"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"right"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.label</span>&#123;</span><br><span class="line">    <span class="attribute">display</span>: inline-block;</span><br><span class="line">    <span class="attribute">position</span>: relative;</span><br><span class="line">    <span class="attribute">left</span>:<span class="number">0px</span>;</span><br><span class="line">    <span class="attribute">top</span>: <span class="number">0px</span>;</span><br><span class="line">    <span class="attribute">text-align</span>: right;</span><br><span class="line">    <span class="attribute">width</span>:<span class="number">45%</span>;</span><br><span class="line">    <span class="attribute">vertical-align</span>: top;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.right</span>&#123;</span><br><span class="line">    <span class="attribute">display</span>: inline-block;</span><br><span class="line">    <span class="attribute">position</span>: relative;</span><br><span class="line">    <span class="attribute">right</span>:<span class="number">0px</span>;</span><br><span class="line">    <span class="attribute">top</span>: <span class="number">0px</span>;</span><br><span class="line">    <span class="attribute">text-align</span>: left;</span><br><span class="line">    <span class="attribute">width</span>: <span class="number">45%</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h4 id="position-屬性有四種參數，分別是"><a href="#position-屬性有四種參數，分別是" class="headerlink" title="position 屬性有四種參數，分別是"></a>position 屬性有四種參數，分別是</h4><h4 id="static-被套用到此設定的參數會依照瀏覽器的預設方式而排列，不會被定位。"><a href="#static-被套用到此設定的參數會依照瀏覽器的預設方式而排列，不會被定位。" class="headerlink" title="- static: 被套用到此設定的參數會依照瀏覽器的預設方式而排列，不會被定位。"></a>- static: 被套用到此設定的參數會依照瀏覽器的預設方式而排列，不會被定位。</h4><h4 id="relative-套用到此設定的參數一樣會按照瀏覽器的預設方式而排列，但相對-static-relative-可以被定位，且可以被-top-bottom-left-right-參數改變排列位置，例如-top-10px-為距離頂端-10px-的距離"><a href="#relative-套用到此設定的參數一樣會按照瀏覽器的預設方式而排列，但相對-static-relative-可以被定位，且可以被-top-bottom-left-right-參數改變排列位置，例如-top-10px-為距離頂端-10px-的距離" class="headerlink" title="- relative: 套用到此設定的參數一樣會按照瀏覽器的預設方式而排列，但相對 static relative 可以被定位，且可以被 top, bottom, left, right 參數改變排列位置，例如 top:10px 為距離頂端 10px 的距離"></a>- relative: 套用到此設定的參數一樣會按照瀏覽器的預設方式而排列，但相對 static relative 可以被定位，且可以被 top, bottom, left, right 參數改變排列位置，例如 top:10px 為距離頂端 10px 的距離</h4><h4 id="absolute-套用到此參數的元素一樣為可以被定位的元素，但是他所參考的相對位置為上一層可以被定位的元素，如果上一層為-static-不能被定位-，則會參考-body-元素。此參數一樣可以套用-top-bottom-left-right。"><a href="#absolute-套用到此參數的元素一樣為可以被定位的元素，但是他所參考的相對位置為上一層可以被定位的元素，如果上一層為-static-不能被定位-，則會參考-body-元素。此參數一樣可以套用-top-bottom-left-right。" class="headerlink" title="- absolute: 套用到此參數的元素一樣為可以被定位的元素，但是他所參考的相對位置為上一層可以被定位的元素，如果上一層為 static(不能被定位) ，則會參考 body 元素。此參數一樣可以套用 top, bottom, left, right。"></a>- absolute: 套用到此參數的元素一樣為可以被定位的元素，但是他所參考的相對位置為上一層可以被定位的元素，如果上一層為 static(不能被定位) ，則會參考 body 元素。此參數一樣可以套用 top, bottom, left, right。</h4><h4 id="fixed-套用此設定的元素相對-absolute-參考的對象為上一層可被定義的元素-fixed-的定位是參考瀏覽器視窗，再根據-top-bottom-left-right-來調整位置。"><a href="#fixed-套用此設定的元素相對-absolute-參考的對象為上一層可被定義的元素-fixed-的定位是參考瀏覽器視窗，再根據-top-bottom-left-right-來調整位置。" class="headerlink" title="- fixed: 套用此設定的元素相對 absolute 參考的對象為上一層可被定義的元素 fixed 的定位是參考瀏覽器視窗，再根據 top, bottom, left, right 來調整位置。"></a>- fixed: 套用此設定的元素相對 absolute 參考的對象為上一層可被定義的元素 fixed 的定位是參考瀏覽器視窗，再根據 top, bottom, left, right 來調整位置。</h4><p>===</p>
-<h3 id="這次切版多注意到了幾個實用的參數"><a href="#這次切版多注意到了幾個實用的參數" class="headerlink" title="這次切版多注意到了幾個實用的參數"></a>這次切版多注意到了幾個實用的參數</h3><h4 id="input-標籤的-require-及-placeholder-參數"><a href="#input-標籤的-require-及-placeholder-參數" class="headerlink" title="input 標籤的 require 及 placeholder 參數"></a>input 標籤的 require 及 placeholder 參數</h4><h4 id="require-設定此參數的-input-標籤為必填項目，如果未填，送出表單的時候會無法送出，如下左圖"><a href="#require-設定此參數的-input-標籤為必填項目，如果未填，送出表單的時候會無法送出，如下左圖" class="headerlink" title="- require: 設定此參數的 input 標籤為必填項目，如果未填，送出表單的時候會無法送出，如下左圖"></a>- require: 設定此參數的 input 標籤為必填項目，如果未填，送出表單的時候會無法送出，如下左圖</h4><h4 id="placeholder-此參數可以設定一個字串，效果為該欄未填寫任何東西時，會顯示一串文字說明該欄，如下右圖"><a href="#placeholder-此參數可以設定一個字串，效果為該欄未填寫任何東西時，會顯示一串文字說明該欄，如下右圖" class="headerlink" title="- placeholder: 此參數可以設定一個字串，效果為該欄未填寫任何東西時，會顯示一串文字說明該欄，如下右圖"></a>- placeholder: 此參數可以設定一個字串，效果為該欄未填寫任何東西時，會顯示一串文字說明該欄，如下右圖</h4><div align="center">
-    <img src="p3.jpg" style="width:50%; display:inline;"><img src="p4.jpg" style="width:50%; display:inline;">    
-</div>
-
-<p>===</p>
-<h2 id="成品參考這裡"><a href="#成品參考這裡" class="headerlink" title="成品參考這裡"></a>成品參考<a href="https://codepen.io/yencheng/pen/agdweR" target="_blank" rel="noopener">這裡</a></h2>
+          <!--noindex-->
+          
+            <div class="post-button text-center">
+              <a class="btn" href="/2019/06/15/layout/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          
+          <!--/noindex-->
+        
       
     </div>
-    <footer class="article-footer">
-      <a data-url="http://yencheng.com/2019/06/15/layout/" data-id="cjwxcfa050004vstfco7y5eem" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/css/">css</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/html/">html</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/layout/">layout</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/切版/">切版</a></li></ul>
 
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-layout" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2019/06/09/layout/" class="article-date">
-  <time datetime="2019-06-09T07:52:01.000Z" itemprop="datePublished">2019-06-09</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/切版/">切版</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
     
     
-      <header class="article-header">
+    
+      <footer class="post-footer">
+          <div class="post-eof"></div>
         
+      </footer>
+  </div>
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/06/09/layout/">切版練習</a>
-    </h1>
   
+  
+  </article>
 
-      </header>
     
-    <div class="article-entry" itemprop="articleBody">
+        <article itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block home">
+    <link itemprop="mainEntityOfPage" href="http://yencheng.com/2019/06/09/layout/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="YENCHENG LIU">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="yencheng's code blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+            
+            <a href="/2019/06/09/layout/" class="post-title-link" itemprop="url">切版練習</a>
+          
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              
+                
+              
+
+              <time title="Created: 2019-06-09 16:52:01" itemprop="dateCreated datePublished" datetime="2019-06-09T16:52:01+09:00">2019-06-09</time>
+            </span>
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2019-09-05 20:50:03" itemprop="dateModified" datetime="2019-09-05T20:50:03+09:00">2019-09-05</time>
+              </span>
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/切版/" itemprop="url" rel="index"><span itemprop="name">切版</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
       
-        <hr>
-<h3 id="參考現成的網站模仿實現出一樣的-layout，此次參考的範例為FreeCodeCamp的-學習範例"><a href="#參考現成的網站模仿實現出一樣的-layout，此次參考的範例為FreeCodeCamp的-學習範例" class="headerlink" title="參考現成的網站模仿實現出一樣的 layout，此次參考的範例為FreeCodeCamp的 學習範例"></a>參考現成的網站模仿實現出一樣的 layout，此次參考的範例為FreeCodeCamp的 <a href="https://codepen.io/freeCodeCamp/full/zNqgVx" target="_blank" rel="noopener">學習範例</a></h3><h3 id="以下圖片為網站的整體預覽，第一眼大致上得出下一張圖的-html-架構"><a href="#以下圖片為網站的整體預覽，第一眼大致上得出下一張圖的-html-架構" class="headerlink" title="以下圖片為網站的整體預覽，第一眼大致上得出下一張圖的 html 架構"></a>以下圖片為網站的整體預覽，第一眼大致上得出下一張圖的 html 架構</h3><div align="center">
+          <hr>
+<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p> 參考現成的網站模仿實現出一樣的 layout，此次參考的範例為FreeCodeCamp的 <a href="https://codepen.io/freeCodeCamp/full/zNqgVx" target="_blank" rel="noopener">學習範例</a></p>
+<h2 id="預覽網頁的整體架構"><a href="#預覽網頁的整體架構" class="headerlink" title="預覽網頁的整體架構"></a>預覽網頁的整體架構</h2><p>以下圖片為網站的整體預覽，第一眼大致上得出下一張圖的 html 架構</p>
+<div align="center">
     <img src="p1.png" style="width:50%; display:inline;"><img src="p2.png" style="width:50%; display:inline;">    
 </div>
-
-<h4 id="最外圍用一個-div-包住內部所有的-div-，此-div-可以設定為範例中的灰色底色，標題與標題下面的文字先用一個div包住，在個別用div包住"><a href="#最外圍用一個-div-包住內部所有的-div-，此-div-可以設定為範例中的灰色底色，標題與標題下面的文字先用一個div包住，在個別用div包住" class="headerlink" title="最外圍用一個 div 包住內部所有的 div ，此 div 可以設定為範例中的灰色底色，標題與標題下面的文字先用一個div包住，在個別用div包住"></a>最外圍用一個 div 包住內部所有的 div ，此 div 可以設定為範例中的灰色底色，標題與標題下面的文字先用一個div包住，在個別用div包住</h4><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span> = <span class="string">"container"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span> = <span class="string">"topic"</span>&gt;</span><span class="tag">&lt;<span class="name">h1</span>&gt;</span>Dr. Norman Borlaug<span class="tag">&lt;/<span class="name">h1</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"subtopic"</span>&gt;</span><span class="tag">&lt;<span class="name">p</span>&gt;</span>The man who saved a billion lives<span class="tag">&lt;/<span class="name">p</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<h4 id="為了讓-div-置中，我預設-id-為-container-div-的-css-margin-屬性為-0-auto，並設定此-div-內的所有文字置中，如果後面需要不用置中的文字只要用新的-css-覆蓋即可，標題離-div-頂部有一個空隙，此處用-padding-top-達成相同的效果"><a href="#為了讓-div-置中，我預設-id-為-container-div-的-css-margin-屬性為-0-auto，並設定此-div-內的所有文字置中，如果後面需要不用置中的文字只要用新的-css-覆蓋即可，標題離-div-頂部有一個空隙，此處用-padding-top-達成相同的效果" class="headerlink" title="為了讓 div 置中，我預設 id 為 container div 的 css margin 屬性為 0 auto，並設定此 div 內的所有文字置中，如果後面需要不用置中的文字只要用新的 css 覆蓋即可，標題離 div 頂部有一個空隙，此處用 padding-top 達成相同的效果"></a>為了讓 div 置中，我預設 id 為 container div 的 css margin 屬性為 0 auto，並設定此 div 內的所有文字置中，如果後面需要不用置中的文字只要用新的 css 覆蓋即可，標題離 div 頂部有一個空隙，此處用 padding-top 達成相同的效果</h4><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-id">#container</span>&#123;</span><br><span class="line">    <span class="attribute">margin</span>: <span class="number">0</span> auto;</span><br><span class="line">    <span class="attribute">width </span>:<span class="number">95%</span>;</span><br><span class="line">    <span class="attribute">background-color</span>:<span class="number">#EEEEEE</span>;</span><br><span class="line">    <span class="attribute">text-align</span>: center;</span><br><span class="line">    <span class="attribute">line-height</span>:<span class="number">30px</span>;</span><br><span class="line">    <span class="attribute">color</span>:<span class="number">#333333</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-id">#topic</span>&#123;</span><br><span class="line">    <span class="attribute">padding-top</span>:<span class="number">10px</span>;</span><br><span class="line">    <span class="attribute">font-size</span>: <span class="number">20px</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h4 id="圖片包含下面的文字也一樣用div包住，接著使用-img-標籤引入圖片，下方文字使用-p-標籤"><a href="#圖片包含下面的文字也一樣用div包住，接著使用-img-標籤引入圖片，下方文字使用-p-標籤" class="headerlink" title="圖片包含下面的文字也一樣用div包住，接著使用 img 標籤引入圖片，下方文字使用 p 標籤"></a>圖片包含下面的文字也一樣用div包住，接著使用 img 標籤引入圖片，下方文字使用 p 標籤</h4><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span> = <span class="string">"container"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span> = <span class="string">"topic"</span>&gt;</span><span class="tag">&lt;<span class="name">h1</span>&gt;</span>Dr. Norman Borlaug<span class="tag">&lt;/<span class="name">h1</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"subtopic"</span>&gt;</span><span class="tag">&lt;<span class="name">p</span>&gt;</span>The man who saved a billion lives<span class="tag">&lt;/<span class="name">p</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span> =<span class="string">"pic"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">"p1.jpg"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">p</span>&gt;</span>Dr. Norman Borlaug, third from the left, trains biologists in Mexico on how to increase wheat </span><br><span class="line">            yields - part of his life-long war on hunger.<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<h4 id="為了讓圖片置中，將包住-img-的-div-設定-margin為-0-auto-以及-img-本身的-margin-設定為-auto，因為-img-標籤預設的-display-為-inline-，為了讓後面的文字能直接顯示在正下方，必須額外設定-img-的-display-為-block"><a href="#為了讓圖片置中，將包住-img-的-div-設定-margin為-0-auto-以及-img-本身的-margin-設定為-auto，因為-img-標籤預設的-display-為-inline-，為了讓後面的文字能直接顯示在正下方，必須額外設定-img-的-display-為-block" class="headerlink" title="為了讓圖片置中，將包住 img 的 div 設定 margin為 0 auto 以及 img 本身的 margin 設定為 auto，因為 img 標籤預設的 display 為 inline ，為了讓後面的文字能直接顯示在正下方，必須額外設定 img 的 display 為 block"></a>為了讓圖片置中，將包住 img 的 div 設定 margin為 0 auto 以及 img 本身的 margin 設定為 auto，因為 img 標籤預設的 display 為 inline ，為了讓後面的文字能直接顯示在正下方，必須額外設定 img 的 display 為 block</h4><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-id">#pic</span>&#123;</span><br><span class="line">    <span class="attribute">background-color</span>: <span class="number">#FFFFFF</span>;</span><br><span class="line">    <span class="attribute">width</span>:<span class="number">95%</span>;</span><br><span class="line">    <span class="attribute">margin</span>: <span class="number">0</span> auto;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-tag">img</span>&#123;</span><br><span class="line">    <span class="attribute">display</span>: block;</span><br><span class="line">    <span class="attribute">margin</span>: auto;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h4 id="接著為時間軸的標題以及時間軸的列表還有時間軸後面的引言，三者都個別使用-div-包住後，外圍在使用一個-div-包住，時間軸列表使用-ul-li-標籤，年號粗體的部分可以用-strong-標籤包起來"><a href="#接著為時間軸的標題以及時間軸的列表還有時間軸後面的引言，三者都個別使用-div-包住後，外圍在使用一個-div-包住，時間軸列表使用-ul-li-標籤，年號粗體的部分可以用-strong-標籤包起來" class="headerlink" title="接著為時間軸的標題以及時間軸的列表還有時間軸後面的引言，三者都個別使用 div 包住後，外圍在使用一個 div 包住，時間軸列表使用 ul li 標籤，年號粗體的部分可以用 strong 標籤包起來"></a>接著為時間軸的標題以及時間軸的列表還有時間軸後面的引言，三者都個別使用 div 包住後，外圍在使用一個 div 包住，時間軸列表使用 ul li 標籤，年號粗體的部分可以用 strong 標籤包起來</h4><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"content"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">h2</span>&gt;</span>Here's a time line of Dr. Borlaug's life:<span class="tag">&lt;/<span class="name">h2</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"timeline"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">ul</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">li</span>&gt;</span><span class="tag">&lt;<span class="name">strong</span>&gt;</span>1943<span class="tag">&lt;/<span class="name">strong</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">li</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">li</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">li</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">ul</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"quote"</span>&gt;</span></span><br><span class="line">            "Borlaug's life and achievement are testimony to the far-reaching contribution that one man's towering intellect, persistence and scientific vision can make to human peace and progress."</span><br><span class="line">            <span class="tag">&lt;<span class="name">br</span>&gt;</span><span class="tag">&lt;<span class="name">br</span>&gt;</span></span><br><span class="line">            -- Indian Prime Minister Manmohan Singh</span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<h4 id="時間軸及後面引言的部分很明顯不是文字置中，所以將-text-align-設定為-left，每個-li-之間都保有一個間距，設定一個值給-margin-bottom，引言對齊時間的部分用-margin-left-做調整"><a href="#時間軸及後面引言的部分很明顯不是文字置中，所以將-text-align-設定為-left，每個-li-之間都保有一個間距，設定一個值給-margin-bottom，引言對齊時間的部分用-margin-left-做調整" class="headerlink" title="時間軸及後面引言的部分很明顯不是文字置中，所以將 text-align 設定為 left，每個 li 之間都保有一個間距，設定一個值給 margin-bottom，引言對齊時間的部分用 margin-left 做調整"></a>時間軸及後面引言的部分很明顯不是文字置中，所以將 text-align 設定為 left，每個 li 之間都保有一個間距，設定一個值給 margin-bottom，引言對齊時間的部分用 margin-left 做調整</h4><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-id">#timeline</span>&#123;</span><br><span class="line">    <span class="attribute">text-align</span>: left;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-tag">li</span>&#123;</span><br><span class="line">    <span class="attribute">margin-bottom</span>:<span class="number">20px</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-id">#quote</span>&#123;</span><br><span class="line">    <span class="attribute">margin-left</span>: <span class="number">22px</span>;</span><br><span class="line">    <span class="attribute">text-align</span>: left;</span><br><span class="line">    <span class="attribute">font-style</span>: italic;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h4 id="完成後的成果可參考這裡"><a href="#完成後的成果可參考這裡" class="headerlink" title="完成後的成果可參考這裡"></a>完成後的成果可參考<a href="https://codepen.io/yencheng/pen/EzqrMB" target="_blank" rel="noopener">這裡</a></h4>
+          <!--noindex-->
+          
+            <div class="post-button text-center">
+              <a class="btn" href="/2019/06/09/layout/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          
+          <!--/noindex-->
+        
       
     </div>
-    <footer class="article-footer">
-      <a data-url="http://yencheng.com/2019/06/09/layout/" data-id="cjwxcf9zp0000vstfqjl1oz6n" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/css/">css</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/html/">html</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/layout/">layout</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/切版/">切版</a></li></ul>
 
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-hello-world" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2019/06/09/hello-world/" class="article-date">
-  <time datetime="2019-06-09T06:28:55.424Z" itemprop="datePublished">2019-06-09</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
     
     
-      <header class="article-header">
+    
+      <footer class="post-footer">
+          <div class="post-eof"></div>
         
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/06/09/hello-world/">Hello World</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yencheng.com/2019/06/09/hello-world/" data-id="cjwxcf9zy0001vstfmmk1f43d" class="article-share-link">Share</a>
-      
-      
-    </footer>
+      </footer>
   </div>
   
-</article>
-
-
   
-
-
-</section>
-        
-          <aside id="sidebar">
   
+  </article>
+
     
-  <div class="widget-wrap">
-    <h3 class="widget-title">Categories</h3>
-    <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/切版/">切版</a></li></ul>
+  </div>
+
+  
+
+
+          </div>
+          
+
+        </div>
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
     </div>
   </div>
 
+  <aside class="sidebar">
+    <div class="sidebar-inner">
 
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Tags</h3>
-    <div class="widget">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/css/">css</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/html/">html</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/layout/">layout</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/切版/">切版</a></li></ul>
-    </div>
-  </div>
-
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Tag Cloud</h3>
-    <div class="widget tagcloud">
-      <a href="/tags/css/" style="font-size: 10px;">css</a> <a href="/tags/html/" style="font-size: 10px;">html</a> <a href="/tags/layout/" style="font-size: 10px;">layout</a> <a href="/tags/切版/" style="font-size: 10px;">切版</a>
-    </div>
-  </div>
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Archives</h3>
-    <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">June 2019</a></li></ul>
-    </div>
-  </div>
-
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Recent Posts</h3>
-    <div class="widget">
-      <ul>
-        
-          <li>
-            <a href="/2019/06/15/layout/">切版練習2</a>
-          </li>
-        
-          <li>
-            <a href="/2019/06/09/layout/">切版練習</a>
-          </li>
-        
-          <li>
-            <a href="/2019/06/09/hello-world/">Hello World</a>
-          </li>
-        
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
       </ul>
-    </div>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">YENCHENG LIU</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+  <nav class="site-state motion-element">
+      <div class="site-state-item site-state-posts">
+        
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">8</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-categories">
+        
+          
+            <a href="/categories/">
+          
+        
+        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-name">categories</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-tags">
+        
+          
+            <a href="/tags/">
+          
+        
+        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-name">tags</span>
+        </a>
+      </div>
+    
+  </nav>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="mailto:yourname@gmail.com" title="E-Mail &rarr; mailto:yourname@gmail.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+    
   </div>
 
-  
-</aside>
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">YENCHENG LIU</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> v3.8.0</div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">Theme – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.4.0</div>
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
         
       </div>
-      <footer id="footer">
-  
-  <div class="outer">
-    <div id="footer-info" class="inner">
-      &copy; 2019 YENCHENG LIU<br>
-      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
-    </div>
+    </footer>
   </div>
-</footer>
-    </div>
-    <nav id="mobile-nav">
+
   
-    <a href="/" class="mobile-nav-link">Home</a>
+
+
+  <script src="/lib/anime.min.js?v=3.1.0"></script>
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+<script src="/js/utils.js?v=7.4.0"></script><script src="/js/motion.js?v=7.4.0"></script>
+<script src="/js/schemes/pisces.js?v=7.4.0"></script>
+
+<script src="/js/next-boot.js?v=7.4.0"></script>
+
+
+
   
-    <a href="/archives" class="mobile-nav-link">Archives</a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   
-</nav>
-    
 
-<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+  
 
+  
 
-  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
-  <script src="/fancybox/jquery.fancybox.pack.js"></script>
-
-
-<script src="/js/script.js"></script>
-
-
-
-  </div>
 </body>
 </html>

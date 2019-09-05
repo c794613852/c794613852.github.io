@@ -1,0 +1,778 @@
+<!DOCTYPE html>
+
+
+
+
+
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.8.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.4.0">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.4.0">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.4.0">
+  <link rel="mask-icon" href="/images/logo.svg?v=7.4.0" color="#222">
+
+<link rel="stylesheet" href="/css/main.css?v=7.4.0">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.4.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: '',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: 'Copy',
+      copy_success: 'Copied',
+      copy_failure: 'Copy failed'
+    },
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="啟動mongoDB server12345mongod --dbpath &amp;quot;路徑&amp;quot; //指定資料的存放路徑mongod --logpath &amp;quot;路徑&amp;quot; //指定log檔的存放路徑(必須是.log)，與--dbpath可以一起執行mongod --port &amp;quot;port&amp;quot; //指定mongodb伺服器的端口mongod --fork --lo">
+<meta name="keywords" content="backend,database,mongoDB,mongo shell">
+<meta property="og:type" content="article">
+<meta property="og:title" content="mongoDB 基礎">
+<meta property="og:url" content="http://yencheng.com/2019/08/10/mongodb/index.html">
+<meta property="og:site_name" content="yencheng&#39;s code blog">
+<meta property="og:description" content="啟動mongoDB server12345mongod --dbpath &amp;quot;路徑&amp;quot; //指定資料的存放路徑mongod --logpath &amp;quot;路徑&amp;quot; //指定log檔的存放路徑(必須是.log)，與--dbpath可以一起執行mongod --port &amp;quot;port&amp;quot; //指定mongodb伺服器的端口mongod --fork --lo">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2019-09-05T11:50:45.831Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="mongoDB 基礎">
+<meta name="twitter:description" content="啟動mongoDB server12345mongod --dbpath &amp;quot;路徑&amp;quot; //指定資料的存放路徑mongod --logpath &amp;quot;路徑&amp;quot; //指定log檔的存放路徑(必須是.log)，與--dbpath可以一起執行mongod --port &amp;quot;port&amp;quot; //指定mongodb伺服器的端口mongod --fork --lo">
+  <link rel="canonical" href="http://yencheng.com/2019/08/10/mongodb/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>mongoDB 基礎 | yencheng's code blog</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">yencheng's code blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+      
+      
+      
+        
+        <li class="menu-item menu-item-home">
+      
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>Home</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-about">
+      
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>About</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-tags">
+      
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>Tags</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-categories">
+      
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>Categories</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-archives">
+      
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>Archives</a>
+
+  </li>
+  </ul>
+
+</nav>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+            
+
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+      <article itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block post">
+    <link itemprop="mainEntityOfPage" href="http://yencheng.com/2019/08/10/mongodb/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="YENCHENG LIU">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="yencheng's code blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">mongoDB 基礎
+
+          
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              
+                
+              
+
+              <time title="Created: 2019-08-10 00:41:21" itemprop="dateCreated datePublished" datetime="2019-08-10T00:41:21+09:00">2019-08-10</time>
+            </span>
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2019-09-05 20:50:45" itemprop="dateModified" datetime="2019-09-05T20:50:45+09:00">2019-09-05</time>
+              </span>
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/MongoDB/" itemprop="url" rel="index"><span itemprop="name">MongoDB</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <hr>
+<h1 id="啟動mongoDB-server"><a href="#啟動mongoDB-server" class="headerlink" title="啟動mongoDB server"></a>啟動mongoDB server</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">mongod --dbpath &quot;路徑&quot; //指定資料的存放路徑</span><br><span class="line">mongod --logpath &quot;路徑&quot; //指定log檔的存放路徑(必須是.log)，與--dbpath可以一起執行</span><br><span class="line">mongod --port &quot;port&quot; //指定mongodb伺服器的端口</span><br><span class="line">mongod --fork --logpath //讓mongo server在背景執行(不用再另外開個cmd，所以需要指定log路徑來輸出log)，只能在Unix和Mac環境使用</span><br><span class="line">net start MongoDB //跟上面一樣讓mongo server在背景執行(windows環境)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>終止mongo server</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">net stop MongoDB //windows</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>使用mongo shell終止mongo server</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">use admin <span class="comment">//進入admin collection</span></span><br><span class="line">db.shutdownServer()</span><br></pre></td></tr></table></figure>
+
+<a id="more"></a>
+
+<h1 id="MongoDB設定檔"><a href="#MongoDB設定檔" class="headerlink" title="MongoDB設定檔"></a>MongoDB設定檔</h1><ul>
+<li>可以指定mongoDB讀取自己產生的設定檔，設定檔可以事先設定簡單的設定，指令如下</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mongod --config &quot;路徑/檔名.cfg&quot;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>設定檔內容範例</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">storage:</span><br><span class="line">    dbpath: <span class="string">"路徑"</span></span><br><span class="line">systemLog:</span><br><span class="line">    destination: file</span><br><span class="line">    path: <span class="string">"路徑"</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">mongo //進入mongo shell</span><br><span class="line">show dbs //顯示所有的資料庫</span><br><span class="line">use &quot;資料庫名稱&quot; //進入該資料庫，如此資料庫尚未存在會自動生成，但在插入資料前不會實際被建立</span><br><span class="line">db.status() //列出資料庫的狀態，包含collections數量、大小等資訊</span><br><span class="line">db.&quot;collection名稱&quot;.drop() //刪除該collection</span><br></pre></td></tr></table></figure>
+
+<h1 id="匯入Json檔到資料庫-import"><a href="#匯入Json檔到資料庫-import" class="headerlink" title="匯入Json檔到資料庫(import)"></a>匯入Json檔到資料庫(import)</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mongoimport 檔案名稱 -d 資料庫名稱 -c collection名稱 --jsonArray --drop</span><br><span class="line">// --jsonArray代表json檔案內是包含多個documents的資料，這樣才會插入整個陣列</span><br><span class="line">// --drop代表如果collection已經存在，會先刪除該collection在建立一個新的插入資料</span><br></pre></td></tr></table></figure>
+
+<h1 id="MongoDB-shell-基礎指令"><a href="#MongoDB-shell-基礎指令" class="headerlink" title="MongoDB shell 基礎指令"></a>MongoDB shell 基礎指令</h1><h2 id="Read"><a href="#Read" class="headerlink" title="Read"></a>Read</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">db.<span class="string">"collection名稱"</span>.find(filter,option) <span class="comment">//列出該collection所有的document</span></span><br><span class="line">db.<span class="string">"collection名稱"</span>.find(filter,option).pretty()<span class="comment">//同上，但會自動排版</span></span><br><span class="line">db.<span class="string">"collection名稱"</span>.findOne(filter,option) <span class="comment">// 只列出一筆</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>find實際上不會列出所有的documents(預設20筆)，而是會給一個cursor object，可以在shell輸入it指令來繼續尋訪剩下的documents，或是在find()後面加上.toArray()</li>
+<li>$gt代表大於，例如{distance: {$gt: 1000}}，distance大於1000的都會被列出來</li>
+<li>filter範例 : {keyname: value}</li>
+<li>find會列出documents內的所有key value，但有時在應用時不需要全部的key，這時可以如 db.passenger.find({},{name: 1})，只會列出name和_id(預設一定會列出)這兩個key，如不想列出_id只要將{name: 1}改成{name:1, _id:0}</li>
+</ul>
+<h3 id="Comparison-Operators"><a href="#Comparison-Operators" class="headerlink" title="Comparison Operators"></a>Comparison Operators</h3><ul>
+<li>$gt : 大於</li>
+<li>$gte : 大於等於</li>
+<li>$eq : 等於</li>
+<li>$ne : 不等於</li>
+<li>$lt : 小於</li>
+<li>$lte : 小於等於</li>
+<li>$in : 出現在陣列裡的數值會被列出來</li>
+<li>$nin : 與$in相反，出現在陣列裡的數值不會被列出來</li>
+</ul>
+<p>範例如下</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">db.movies.find(&#123;<span class="attr">runtime</span>: &#123;<span class="attr">$gt</span>: <span class="number">30</span>&#125;&#125;) <span class="comment">//runtime大於30的documents會被找出來</span></span><br><span class="line">db.movies.find(&#123;<span class="string">"rating.average"</span> : &#123;<span class="attr">$lt</span>: <span class="number">9</span>&#125;&#125;) <span class="comment">//搜尋巢狀結構時要用雙引號包起來，rating裡面的average小於9的會被找出來</span></span><br><span class="line">db.movies.find(&#123;<span class="attr">runtime</span>: &#123;<span class="attr">$in</span>: [<span class="number">30</span>,<span class="number">42</span>]&#125;&#125;) <span class="comment">//runtime是30或42的會被找出來</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="Logical-Operators"><a href="#Logical-Operators" class="headerlink" title="Logical Operators"></a>Logical Operators</h3><ul>
+<li>$and : 結合複數條件，條件都符合才會被列出來</li>
+<li>$not : 與條件符合以外的資料才會被列出來</li>
+<li>$nor : 與條件都不符合的才會被列出來</li>
+<li>$or : 結合複數條件，符合其中一個就會被列出來</li>
+</ul>
+<p>範例如下</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">db.movies.find(&#123;<span class="attr">$or</span>: [&#123;<span class="string">"rating.average"</span>: &#123;<span class="attr">$lt</span>: <span class="number">5</span>&#125;&#125;, &#123;<span class="string">"rating.average"</span>: &#123;<span class="attr">$gt</span>: <span class="number">9.3</span>&#125;&#125;]&#125;) <span class="comment">//rating.average小於5或大於9.3的會被找出來</span></span><br><span class="line">db.movies.find(&#123;<span class="attr">$nor</span>: [&#123;<span class="string">"rating.average"</span>: &#123;<span class="attr">$lt</span>: <span class="number">5</span>&#125;&#125;, &#123;<span class="string">"rating.average"</span>: &#123;<span class="attr">$gt</span>: <span class="number">9.3</span>&#125;&#125;]&#125;) <span class="comment">//rating.average不小於5和不大於9.3的會被找出來</span></span><br><span class="line">db.movies.find(&#123;<span class="attr">runtime</span>: &#123;<span class="attr">$not</span>: &#123;<span class="attr">$eq</span>: <span class="number">60</span>&#125;&#125;&#125;) <span class="comment">//runtime不等於60的會被找出來</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="Element-operator"><a href="#Element-operator" class="headerlink" title="Element operator"></a>Element operator</h3><ul>
+<li>$exists: 找出擁有特定field(key)的document</li>
+<li>$type: 找出特定field是屬於特定資料型態的document</li>
+</ul>
+<p>範例如下</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">db.users.find(&#123;<span class="attr">age</span>: &#123;<span class="attr">$exists</span>: <span class="literal">true</span>&#125;&#125;) <span class="comment">//有age欄位的document才會被列出來</span></span><br><span class="line">db.users.find(&#123;<span class="attr">age</span>: &#123;<span class="attr">$exists</span>: <span class="literal">true</span>, <span class="attr">$gte</span>: <span class="number">30</span>&#125;&#125;) <span class="comment">//有age欄位並且age大於等於30的document會被列出來</span></span><br><span class="line">db.users.find(&#123;<span class="attr">age</span>: &#123;<span class="attr">$exists</span>: <span class="literal">true</span>, <span class="attr">$ne</span>: <span class="literal">null</span>&#125;&#125;) <span class="comment">//有age欄位並且age不是null的document會被列出來</span></span><br><span class="line"></span><br><span class="line">db.users.find(&#123;<span class="attr">phone</span>: &#123;<span class="attr">$type</span>: <span class="string">"number"</span>&#125;&#125;) <span class="comment">//phone的資料型態是number的document會被列出來</span></span><br><span class="line">db.users.find(&#123;<span class="attr">phone</span>: &#123;<span class="attr">$type</span>: [<span class="string">"number"</span>,<span class="string">"string"</span>]&#125;&#125;) <span class="comment">//phone的資料型態是number或string的document會被列出來</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="Evaluation-operator"><a href="#Evaluation-operator" class="headerlink" title="Evaluation operator"></a>Evaluation operator</h3><ul>
+<li>$regex: field包含特定條件的字串的documents會被找出來(使用正規表達式，regular expression)</li>
+<li>$expr: 同一個document內比較兩個field，並找出比較後回傳的結果</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">db.movies.find(&#123;<span class="attr">summary</span>: &#123;<span class="attr">$regex</span>: <span class="regexp">/musical/</span>&#125;&#125;) <span class="comment">//summary只要有包含musical的document就會被列出來</span></span><br><span class="line"></span><br><span class="line">db.sales.find(&#123;<span class="attr">$expr</span>: &#123;<span class="attr">$gt</span>: [<span class="string">"$volume"</span>, <span class="string">"$target"</span>]&#125;&#125;) <span class="comment">//同一個document內，volume的值大於target的值的話，該document會被列出來</span></span><br><span class="line">db.sales.find(&#123;<span class="attr">$expr</span>: &#123;<span class="attr">$gt</span>: [&#123;<span class="attr">$cond</span>: &#123;<span class="attr">if</span>: &#123;<span class="attr">$gte</span>: [<span class="string">"$volume"</span>, <span class="number">190</span>]&#125;, <span class="attr">then</span>: &#123;<span class="attr">$subtract</span>: [<span class="string">"$volume"</span>, <span class="number">30</span>]&#125;, <span class="attr">else</span>: <span class="string">"$volume"</span>&#125;&#125;, <span class="string">"$target"</span>]&#125;&#125;)</span><br><span class="line"><span class="comment">//如果volume的值大於等於190，則將volume-30與target的值比大小，如果沒有大於等於190則直接與target比大小，在上述的前提下volume大於target的document會被列出來</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="Array"><a href="#Array" class="headerlink" title="Array"></a>Array</h3><ul>
+<li>$size: 找出陣列中擁有特定item數的document</li>
+<li>$all: 找出陣列中擁有特定內容的document，陣列內容順序不一樣也可以找出</li>
+<li>$elemMatch: 找出陣列中的item擁有符合特定條件的field(同個document)</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">db.users.find(&#123;<span class="attr">hobbies</span>: &#123;<span class="attr">$size</span>: <span class="number">3</span>&#125;&#125;) <span class="comment">//hobbies陣列裡的item數為3的會被列出來</span></span><br><span class="line"></span><br><span class="line">db.moviestars.find(&#123;<span class="attr">genre</span>: &#123;<span class="attr">$all</span>: [<span class="string">"action"</span>, <span class="string">"thriller"</span>]&#125;&#125;) <span class="comment">//genre陣列中指要有包含全部指定的內容就會列出來</span></span><br><span class="line"></span><br><span class="line">db.users.find(&#123;<span class="attr">hobbies</span>: &#123;<span class="attr">$elemMatch</span>: &#123;<span class="attr">title</span>: <span class="string">"Sports"</span>, <span class="attr">freqency</span>: &#123;<span class="attr">$gte</span>: <span class="number">3</span>&#125;&#125;&#125;&#125;) <span class="comment">//hobbies陣列裡面的item擁有title是Sports、freqency大於等於3的話會被列出來</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="Cursor"><a href="#Cursor" class="headerlink" title="Cursor"></a>Cursor</h3><ul>
+<li>使用find()查找資料時原則上會返回一個指標並且只顯示20筆資料，如果要繼續取得下一個20筆資料shell提供it指令可以繼續向下搜尋</li>
+<li>依照應用程式的規模符合條件的資料可能要上千上萬筆，透過資料庫再傳回用戶端很沒效率，因此會使用指標</li>
+<li>next(): 回傳下一筆資料</li>
+<li>hasNext(): 檢查是否還有下一筆資料(boolean)</li>
+<li>sort(): 根據條件排序</li>
+<li>skip(): 跳過特定數目的資料</li>
+<li>limit(): 指定cursor回傳的資料數目</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//由於Mongodb shell是基於javascript執行環境，因此可以使用JS語法</span></span><br><span class="line"><span class="keyword">const</span> cursor = db.movies.find()</span><br><span class="line">cursor <span class="comment">//這個行為與db.movies.find()相同，會顯示20筆符合的資料</span></span><br><span class="line">cursor.next() <span class="comment">//可以使用next()方法顯示下一筆資料</span></span><br><span class="line">cursor.forEach(<span class="function"><span class="params">doc</span> =&gt;</span> &#123;printjson(doc)&#125;) <span class="comment">//可以使用JS語法的forEach對所有符合條件的資料進行操作</span></span><br><span class="line">cursor.hasNext() <span class="comment">//可以使用hasNext方法查看是否還有下一筆資料，執行完上面那行指令後，hasNext()會回傳false</span></span><br><span class="line"></span><br><span class="line">db.movies.find().sort(&#123;<span class="string">"rating.average"</span>: <span class="number">1</span>&#125;) <span class="comment">//1代表遞增，-1代表遞減</span></span><br><span class="line">db.movies.find().sort(&#123;<span class="string">"rating.average"</span>: <span class="number">1</span>, <span class="attr">runtime</span>: <span class="number">-1</span>&#125;) <span class="comment">//可以不只限定一個條件，此指令優先依rating.average排序，再對runtime排序</span></span><br><span class="line">db.movies.find().sort(&#123;<span class="string">"rating.average"</span>: <span class="number">1</span>, <span class="attr">runtime</span>: <span class="number">-1</span>&#125;).skip(<span class="number">10</span>) <span class="comment">//排序完後會跳過10筆，從第11筆開始顯示</span></span><br><span class="line"></span><br><span class="line">db.movies.find().sort(&#123;<span class="string">"rating.average"</span>: <span class="number">1</span>, <span class="attr">runtime</span>: <span class="number">-1</span>&#125;).skip(<span class="number">10</span>).limit(<span class="number">10</span>) <span class="comment">//只會回傳十筆資料</span></span><br><span class="line"><span class="comment">//mongodb會自動照順序執行，以上面的例子來說會先sort、再skip、再limit</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="Projection"><a href="#Projection" class="headerlink" title="Projection"></a>Projection</h3><ul>
+<li>有時我們不需要document中全部的field，這時可以指定回傳的資料只要包含哪些field</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">db.movies.find(&#123;&#125;,&#123;<span class="attr">name</span>: <span class="number">1</span>, <span class="attr">genres</span>: <span class="number">1</span>, <span class="attr">runtime</span>: <span class="number">1</span>, <span class="attr">rating</span>: <span class="number">1</span>&#125;).pretty()<span class="comment">//傳回的資料只會包含指定為1的field，要注意的是_id預設一定會回傳</span></span><br><span class="line">db.movies.find(&#123;&#125;,&#123;<span class="attr">name</span>: <span class="number">1</span>, <span class="attr">genres</span>: <span class="number">1</span>, <span class="attr">runtime</span>: <span class="number">1</span>, <span class="string">"schedule.time"</span>: <span class="number">1</span>, <span class="attr">rating</span>: <span class="number">1</span>&#125;).pretty()<span class="comment">//已可以指定巢狀裡只要顯示那些field</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//genres是一個字串陣列</span></span><br><span class="line">db.movies.find(&#123;<span class="attr">genres</span>: <span class="string">"Drama"</span>&#125;,&#123;<span class="string">"genres.$"</span>: <span class="number">1</span>&#125;).pretty() <span class="comment">//只會顯示找到的第一個genres，也就是Drama(因為指令find要找genre擁有Drama的document)</span></span><br><span class="line">db.movies.find(&#123;<span class="attr">genres</span>: &#123;<span class="attr">$all</span>: [<span class="string">"Drama"</span>,<span class="string">"Horror"</span>]&#125;&#125;,,&#123;<span class="string">"genres.$"</span>: <span class="number">1</span>&#125;))<span class="comment">//就算找到的資料符合都有Drama和Horror，也只會顯示一個</span></span><br><span class="line"></span><br><span class="line">db.movies.find(&#123;<span class="attr">genres</span>: <span class="string">"Drama"</span>&#125;,&#123;<span class="attr">genres</span>: &#123;<span class="attr">$elemMatch</span>: &#123;<span class="attr">$eq</span>: <span class="string">"Horror"</span>&#125;&#125;&#125;) <span class="comment">//可以將$elemMatch用在projection，範例結果如下</span></span><br><span class="line">&#123; <span class="string">"_id"</span> : ObjectId(<span class="string">"5d53c0df9d473c1fa0311998"</span>) &#125; <span class="comment">//有Drama但是沒有Horror</span></span><br><span class="line">&#123; <span class="string">"_id"</span> : ObjectId(<span class="string">"5d53c0df9d473c1fa031199a"</span>), <span class="string">"genres"</span> : [ <span class="string">"Horror"</span> ] &#125;<span class="comment">//有Drama也有Horror</span></span><br><span class="line"></span><br><span class="line">db.movies.find(&#123;<span class="string">"rating.average"</span>: &#123;<span class="attr">$gt</span>: <span class="number">9</span>&#125;&#125;,&#123;<span class="attr">genres</span>: &#123;<span class="attr">$slice</span>: <span class="number">2</span>&#125;, <span class="attr">name</span>: <span class="number">1</span>&#125;)<span class="comment">//$slice可以指定只要顯示幾個element，此指令會列出所有rating.average大於9的document，但是只會回傳_id, name, 以及genres陣列中的前兩個element</span></span><br><span class="line">db.movies.find(&#123;<span class="string">"rating.average"</span>: &#123;<span class="attr">$gt</span>: <span class="number">9</span>&#125;&#125;,&#123;<span class="attr">genres</span>: &#123;<span class="attr">$slice</span>: [<span class="number">1</span>, <span class="number">2</span>]&#125;, <span class="attr">name</span>: <span class="number">1</span>&#125;)<span class="comment">//此指令相對於上面的指令，會跳過genres的第一個element，然後接著顯示兩個element</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="Create"><a href="#Create" class="headerlink" title="Create"></a>Create</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">db.<span class="string">"collection名稱"</span>.insertOne(data,option) <span class="comment">//在指定collection(類似SQL database的table)內插入資料，()內要輸入Json型態的資料</span></span><br><span class="line">db.<span class="string">"collection名稱"</span>.insertMany(data,option) <span class="comment">//插入多筆documents</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>data為Json格式</li>
+<li>collection會在insert資料時被動產生，如果需要特殊設定collection的validation可以使用以下指令</li>
+</ul>
+<h3 id="mongoDB預設的行為"><a href="#mongoDB預設的行為" class="headerlink" title="mongoDB預設的行為"></a>mongoDB預設的行為</h3><ul>
+<li>當我們在插入新資料時可能會遇到一個狀況，就是插入了重複的資料、需要插入的資料已經在資料庫裡了，這時的MongoDB會如下應對</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//在下面的範例中，假如_id為cars的document已經存在資料庫，mongoDB預設的行為會在執行到cars時暫停並輸出錯誤，但sports仍會被加到資料庫裡，yoga則不會，因為cars以後就不會被執行了</span></span><br><span class="line">db.hobbies.insertMany([&#123;<span class="attr">_id</span>: <span class="string">"sports"</span>, <span class="attr">name</span>:<span class="string">"Sports"</span>&#125;,&#123;<span class="attr">_id</span>: <span class="string">"cars"</span>, <span class="attr">name</span>:<span class="string">"Cars"</span>&#125;,&#123;<span class="attr">_id</span>: <span class="string">"yoga"</span>, <span class="attr">name</span>:<span class="string">"Yoga"</span>&#125;])</span><br><span class="line"></span><br><span class="line"><span class="comment">//但我們可以更改這個行為，方法如下</span></span><br><span class="line">db.hobbies.insertMany([&#123;<span class="attr">_id</span>: <span class="string">"sports"</span>, <span class="attr">name</span>:<span class="string">"Sports"</span>&#125;,&#123;<span class="attr">_id</span>: <span class="string">"cars"</span>, <span class="attr">name</span>:<span class="string">"Cars"</span>&#125;,&#123;<span class="attr">_id</span>: <span class="string">"yoga"</span>, <span class="attr">name</span>:<span class="string">"Yoga"</span>&#125;], &#123;<span class="attr">ordered</span>: <span class="literal">false</span>&#125;)</span><br><span class="line"><span class="comment">//假設前提與上面相同，sports被插入到資料庫後，cars會發生錯誤，但是yoga仍會被執行並插入資料庫(ordered預設為true)</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="Update"><a href="#Update" class="headerlink" title="Update"></a>Update</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">db.<span class="string">"collection名稱"</span>.updateOne(filter,data,option) <span class="comment">//更新一筆特定的document，db.test.updateOne(&#123;test1:"123"&#125;,$set:&#123;test2:456&#125;)</span></span><br><span class="line">db.<span class="string">"collection名稱"</span>.updateMany(filter,data,option) <span class="comment">//更新多筆特定的document</span></span><br><span class="line">db.<span class="string">"collection名稱"</span>.replaceOne(filter,data,option) <span class="comment">//取代某筆特定的document</span></span><br><span class="line">db.<span class="string">"collection名稱"</span>.update(filter,data,option) <span class="comment">// 可以接受沒有$set，但會直接把資料全部取代成指定的內容，如果要達到相同的效果建議使用replace</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>如果要操作的對象回複數時，filter設定成 {} 代表對象為全部，delete也適用</li>
+<li>$set: $set的對象如果存在會更新成指定的值，不存在則會新增該key value</li>
+<li>$inc: 可以對值進行加減法</li>
+<li>$mul: 可以對值進行乘法</li>
+<li>$min: $min在新的值比舊的值小時會更改資料</li>
+<li>$max: $max在新的值比舊的值大時會更改資料</li>
+<li>$unset: 指定的field會被drop，也就是該field會變成不存在</li>
+<li>$rename: 對field進行改名</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//_id為5的document中的hobbies會被更改為&#123;title: "Sports", frequency: 5&#125;, &#123;title: "Cooking", frequency: 3&#125;</span></span><br><span class="line">db.users.updateOne(&#123;<span class="attr">_id</span>: <span class="number">5</span>&#125;, &#123;<span class="attr">$set</span>: &#123;<span class="attr">hobbies</span>: [&#123;<span class="attr">title</span>: <span class="string">"Sports"</span>, <span class="attr">frequency</span>: <span class="number">5</span>&#125;, &#123;<span class="attr">title</span>: <span class="string">"Cooking"</span>, <span class="attr">frequency</span>: <span class="number">3</span>&#125;]&#125;&#125;)</span><br><span class="line"><span class="comment">//所有hobbies中有包含title是Sports的document會被新增一個field isSporty並被設定為true</span></span><br><span class="line">db.users.updateMany(&#123;<span class="string">"hobbies.title"</span>: <span class="string">"Sports"</span>&#125;, &#123;<span class="attr">$set</span>: &#123;<span class="attr">isSporty</span>: <span class="literal">true</span>&#125;&#125;)</span><br><span class="line"><span class="comment">//可以一次新增或更改多個field</span></span><br><span class="line">db.users.updateOne(&#123;<span class="attr">_id</span>: <span class="number">5</span>&#125;, &#123;<span class="attr">$set</span>: &#123;<span class="attr">age</span>: <span class="number">30</span>, <span class="attr">phone</span>: <span class="string">"123456789"</span>&#125;&#125;)</span><br><span class="line"></span><br><span class="line">db.users.updateOne(&#123;<span class="attr">name</span>: <span class="string">"Max"</span>&#125;, &#123;<span class="attr">$inc</span>: &#123;<span class="attr">age</span>: <span class="number">1</span>&#125;&#125;) <span class="comment">//可以針對特定的field進行加法，此結果age會被加1</span></span><br><span class="line">db.users.updateOne(&#123;<span class="attr">name</span>: <span class="string">"Max"</span>&#125;, &#123;<span class="attr">$inc</span>: &#123;<span class="attr">age</span>: <span class="number">-1</span>&#125;, <span class="attr">$set</span>: &#123;<span class="attr">isSporty</span>: <span class="literal">false</span>&#125;&#125;) <span class="comment">//也可以同時使用兩種operator，但如果作用在同一個field會error</span></span><br><span class="line">db.users.updateOne(&#123;<span class="attr">name</span>: <span class="string">"Max"</span>&#125;, &#123;<span class="attr">$mul</span>: &#123;<span class="attr">age</span>: <span class="number">1.1</span>&#125;&#125;) <span class="comment">//$mul會進行乘法，所以Max的age會被乘上1.1</span></span><br><span class="line"></span><br><span class="line">db.users.updateOne(&#123;<span class="attr">name</span>: <span class="string">"Max"</span>&#125;, &#123;<span class="attr">$min</span>: &#123;<span class="attr">age</span>: <span class="number">35</span>&#125;&#125;)<span class="comment">//如果Max的age大於35則會被更新成35，$min只有在新的值比舊的值小時才會更改資料</span></span><br><span class="line">db.users.updateOne(&#123;<span class="attr">name</span>: <span class="string">"Max"</span>&#125;, &#123;<span class="attr">$max</span>: &#123;<span class="attr">age</span>: <span class="number">40</span>&#125;&#125;)<span class="comment">//$max則是在新的值比舊的值還要大時才會更改資料</span></span><br><span class="line"></span><br><span class="line">db.users.updateMany(&#123;<span class="attr">isSporty</span>: <span class="literal">true</span>&#125;, &#123;<span class="attr">$unset</span>: &#123;<span class="attr">phone</span>: <span class="string">""</span>&#125;&#125;) <span class="comment">//phone後面給予的值並不會改變結果</span></span><br><span class="line"></span><br><span class="line">db.users.updateMany(&#123;&#125; &#123;<span class="attr">$rename</span>: &#123;<span class="attr">age</span>: <span class="string">"totalAge"</span>&#125;&#125;) <span class="comment">//field age會被改名成totalAge</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>upsert(): 如果不確定要更新的對象是否存在，如果存在的話需要更新，不存在的話需要新增的話，可以使用此選項</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//如果name為Maria的document存在的話就會更新，不存在的話就會create，包含搜尋條件name: "Maria"也會被create</span></span><br><span class="line">db.users.updateOne(&#123;<span class="attr">name</span>: <span class="string">"Maria"</span>&#125;, &#123;<span class="attr">$set</span>: &#123;<span class="attr">age</span>: <span class="number">29</span>, <span class="attr">hobbies</span>: [&#123;<span class="attr">title</span>: <span class="string">"Good food"</span>, <span class="attr">frequency</span>: <span class="number">3</span>&#125;], <span class="attr">isSporty</span>: <span class="literal">true</span>&#125;&#125;, &#123;<span class="attr">upsert</span>: <span class="literal">true</span>&#125;)</span><br><span class="line"><span class="string">``</span><span class="string">` </span></span><br><span class="line"><span class="string">### 修改陣列內容</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">`</span><span class="string">``</span> javascript</span><br><span class="line"><span class="comment">//$符號會自動對應到符合條件的field，所以highFrequency會被新增到符合title是Sports且frequency大於等於3的陣列裡(hobbies是個物件陣列)</span></span><br><span class="line">db.users.updateMany(&#123;<span class="attr">hobbies</span>: &#123;<span class="attr">$elemMatch</span>: &#123;<span class="attr">title</span>: <span class="string">"Sports"</span>, <span class="attr">frequency</span>: &#123;<span class="attr">$gte</span>: <span class="number">3</span>&#125;&#125;&#125;&#125;, <span class="attr">$set</span>: &#123;<span class="string">"hobbies.$.highFrequency"</span>: <span class="literal">true</span>&#125;)</span><br><span class="line"><span class="comment">//$[]會更新陣列內所有的element內容，也就是說hobbies內的陣列中，frequency屬性都會被減1</span></span><br><span class="line">db.users.updateMany(&#123;<span class="attr">totalAge</span>: &#123;<span class="attr">$gt</span>: <span class="number">30</span>&#125;&#125;, &#123;<span class="attr">$inc</span>: &#123;<span class="string">"hobbies.$[].frequency"</span>: <span class="number">-1</span>&#125;&#125;)</span><br><span class="line"><span class="comment">//arrayFilters裡的條件可以跟第一個參數的條件不一樣。找出所有擁有hobbies.frequency大於2的document後，在針對hobbies陣列裡面的hobbies.frequency新增條件，這個條件是hobbies.frequency必須大於2，並且符合這個條件的話該element會被新增goodFrequency這個屬性</span></span><br><span class="line">db.users.updateMany(&#123;<span class="string">"hobbies.frequency"</span>: &#123;<span class="attr">$gt</span>: <span class="number">2</span>&#125;&#125;, &#123;<span class="attr">$set</span>: &#123;<span class="string">"hobbies.$[el].goodFrequency"</span>: <span class="literal">true</span>&#125;&#125;, </span><br><span class="line">&#123;<span class="attr">arrayFilters</span>: [&#123;<span class="string">"el.frequency"</span>: &#123;<span class="attr">$gt</span>: <span class="number">2</span>&#125;&#125;]&#125;)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>增加element</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//使用$push增加一個element到hobbies陣列裡</span></span><br><span class="line">db.users.updateOne(&#123;<span class="attr">name</span>: <span class="string">"Maria"</span>&#125;, &#123;<span class="attr">$push</span>: &#123;<span class="attr">hobbies</span>: &#123;<span class="attr">title</span>: <span class="string">"Sports"</span>, <span class="attr">frequency</span>: <span class="number">2</span>&#125;&#125;&#125;)</span><br><span class="line"><span class="comment">//也可以使用$addToSet新增element，與$push不同的是他不能重複新增相同內容的element</span></span><br><span class="line">db.users.updateOne(&#123;<span class="attr">name</span>: <span class="string">"Maria"</span>&#125;, &#123;<span class="attr">$addToSet</span>: &#123;<span class="attr">hobbies</span>: &#123;<span class="attr">title</span>: <span class="string">"Sports"</span>, <span class="attr">frequency</span>: <span class="number">2</span>&#125;&#125;&#125;)</span><br><span class="line"><span class="comment">//$each可以增加多個element到陣列裡</span></span><br><span class="line">db.users.updateOne(&#123;<span class="attr">name</span>: <span class="string">"Maria"</span>&#125;, &#123;<span class="attr">$push</span>: &#123;<span class="attr">hobbies</span>: &#123;<span class="attr">$each</span>: [&#123;<span class="attr">title</span>: <span class="string">"Wine"</span>, <span class="attr">frequency</span>: <span class="number">1</span>&#125;, &#123;<span class="attr">title</span>: <span class="string">"Hiking"</span>, <span class="attr">frequency</span>: <span class="number">2</span>&#125;]&#125;&#125;&#125;)</span><br><span class="line"><span class="comment">//可以在$each後面在增加排序的方式，如此一來更新時就會按照frequency大的先被插入，而且不只插入的element會被排序，原本在陣列裡的element也會被排序</span></span><br><span class="line">db.users.updateOne(&#123;<span class="attr">name</span>: <span class="string">"Maria"</span>&#125;, &#123;<span class="attr">$push</span>: &#123;<span class="attr">hobbies</span>: &#123;<span class="attr">$each</span>: [&#123;<span class="attr">title</span>: <span class="string">"Wine"</span>, <span class="attr">frequency</span>: <span class="number">1</span>&#125;, &#123;<span class="attr">title</span>: <span class="string">"Hiking"</span>, <span class="attr">frequency</span>: <span class="number">2</span>&#125;], <span class="attr">$sort</span>: &#123;<span class="attr">frequency</span>: <span class="number">-1</span>&#125;&#125;&#125;&#125;)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>移除element</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//hobbies陣列裡title為Hiking的element會被移除</span></span><br><span class="line">db.users.updateOne(&#123;<span class="attr">name</span>: <span class="string">"Maria"</span>&#125;, &#123;<span class="attr">$pull</span>: &#123;<span class="attr">hobbies</span>: &#123;<span class="attr">title</span>: <span class="string">"Hiking"</span>&#125;&#125;&#125;)</span><br><span class="line"><span class="comment">//使用$pop可以移除陣列第一個或最後一個element，1為最後一個，-1為第一個</span></span><br><span class="line">db.users.updateOne(&#123;<span class="attr">name</span>: <span class="string">"Cris"</span>&#125;, &#123;<span class="attr">$pop</span>: &#123;<span class="attr">hobbies</span>: <span class="number">1</span>&#125;&#125;)</span><br></pre></td></tr></table></figure>
+
+<h2 id="Delete"><a href="#Delete" class="headerlink" title="Delete"></a>Delete</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">db.<span class="string">"collection名稱"</span>.deleteOne(filter,option) <span class="comment">//刪除特定的一筆document，如有兩筆以上符合條件，只會刪除找到的第一筆</span></span><br><span class="line">db.<span class="string">"collection名稱"</span>.deleteMany(filter,option)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>刪除所有document</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">db.users.deleteMany(&#123;&#125;)<span class="comment">//會變成空的</span></span><br><span class="line">db.users.drop()<span class="comment">//collections整個被刪除</span></span><br><span class="line">db.dropDatabase()<span class="comment">//必須先使用use進入特定的database</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="MongoDB資料型態"><a href="#MongoDB資料型態" class="headerlink" title="MongoDB資料型態"></a>MongoDB資料型態</h1><ul>
+<li>text</li>
+<li>boolean</li>
+<li>number(mongo shell是基於javascript，所以預設的數字全部都是float,double的64bit數字)<ul>
+<li>Integer(int32) : 32bit長度的數字  +-2,147,483,647</li>
+<li>Integer(int64) : 64bit長度的數字  +-9,223,372,036,854,775,807</li>
+<li>NumberDecimal</li>
+</ul>
+</li>
+<li>ObjectId : 插入新資料時mongoDB會自動產生一個唯一的_id，也可以自行設定</li>
+<li>ISODate</li>
+<li>Timestamp</li>
+</ul>
+<h2 id="使用非預設的數字型態可以使用如下方法"><a href="#使用非預設的數字型態可以使用如下方法" class="headerlink" title="使用非預設的數字型態可以使用如下方法"></a>使用非預設的數字型態可以使用如下方法</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">db.test.insertOne(&#123;<span class="attr">a</span>: NumberInt(<span class="number">1</span>)&#125;) <span class="comment">//在大部分的情況下與預設型態沒有差別，但可以節省一點空間</span></span><br></pre></td></tr></table></figure>
+
+<p>限制 : 單一document的大小必須小於等於16mb，document的巢狀結構最多100層</p>
+<h1 id="設定Schema的validation"><a href="#設定Schema的validation" class="headerlink" title="設定Schema的validation"></a>設定Schema的validation</h1><ul>
+<li>有些時候我們要限制create和update時資料的格式，例如create時一定要包含哪些屬性，且屬性一定要是特定的資料型態，否則會更新失敗或跳出警告訊息，我們使用以下指令來設定</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line">db.createCollection(<span class="string">"collection名稱"</span>, &#123;</span><br><span class="line">    validator: &#123;</span><br><span class="line">        $jsonSchema: &#123;</span><br><span class="line">            bsonType: <span class="string">"object"</span>,</span><br><span class="line">            required:[<span class="string">"title"</span>, <span class="string">"text"</span>, <span class="string">"creator"</span>, <span class="string">"comments"</span>], <span class="comment">//必須要有這四個屬性</span></span><br><span class="line">            properties:&#123;</span><br><span class="line">                title:&#123;</span><br><span class="line">                    bsonType:<span class="string">"string"</span>,</span><br><span class="line">                    description: <span class="string">"must be a string and required"</span></span><br><span class="line">                &#125;,</span><br><span class="line">                text:&#123;</span><br><span class="line">                    bsonType:<span class="string">"string"</span>,</span><br><span class="line">                    description: <span class="string">"must be a string and required"</span></span><br><span class="line">                &#125;,</span><br><span class="line">                creator:&#123;</span><br><span class="line">                    bsonType:<span class="string">"objectId"</span></span><br><span class="line">                    description: <span class="string">"must be an objectId and required"</span></span><br><span class="line">                &#125;,</span><br><span class="line">                comments:&#123;</span><br><span class="line">                    bsonType:<span class="string">"array"</span></span><br><span class="line">                    description: <span class="string">"must be a array and required"</span></span><br><span class="line">                    items:&#123;</span><br><span class="line">                        bsonType: <span class="string">"object"</span>,</span><br><span class="line">                        required:[<span class="string">"text"</span>, <span class="string">"author"</span>],</span><br><span class="line">                        properties: &#123;</span><br><span class="line">                            text:&#123;</span><br><span class="line">                                bsonType:<span class="string">"string"</span>,</span><br><span class="line">                                description: <span class="string">"must be a string and required"</span></span><br><span class="line">                            &#125;,</span><br><span class="line">                            aothor:&#123;</span><br><span class="line">                                bsonType:<span class="string">"objectId"</span></span><br><span class="line">                                description: <span class="string">"must be an objectId and required"</span></span><br><span class="line">                            &#125;</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>如果要更改設定，可以使用以下指令</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">db.runCommand(&#123;</span><br><span class="line">  collMod: <span class="string">'posts'</span>,　<span class="comment">//collection的名稱</span></span><br><span class="line">  validator: &#123;</span><br><span class="line">    <span class="comment">//同上</span></span><br><span class="line">    </span><br><span class="line">  &#125;,</span><br><span class="line">  validationAction: <span class="string">'warn'</span> <span class="comment">//就算插入或更新的資料不符合設定，仍可以成功，但警告訊息會被加在log裡(預設為"error")</span></span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<h1 id="Index"><a href="#Index" class="headerlink" title="Index"></a>Index</h1><ul>
+<li>MongoDB提供了增加Index的功能，可以幫助在query時提供效率，當進行一個query時，如果沒有index的話MongoDB會查找整個collection來尋找符合條件的資料，但是有了index(ordered)，MongoDB可以快速地找到需要的資料，index是一個指標，可以指向他所代表的整個document</li>
+<li>Index雖然可以增加query的效率，但還是必須付出代價，因為他是一個有排序的資訊，所以每次insert新資料時，其他document都必須更新</li>
+<li>要注意的是，如果query所回傳的資料幾乎是全部的document，速度反而會比沒有index還慢，因為index會多一步(透過指標找到整個document的步驟)</li>
+</ul>
+<h2 id="讓MongoDB給出更詳細的query資訊"><a href="#讓MongoDB給出更詳細的query資訊" class="headerlink" title="讓MongoDB給出更詳細的query資訊"></a>讓MongoDB給出更詳細的query資訊</h2><ul>
+<li>explain(): 適用於update、find、delete</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br></pre></td><td class="code"><pre><span class="line">db.contacts.explain().find(&#123;<span class="string">"dob.age"</span>: &#123;<span class="attr">$gt</span>: <span class="number">60</span>&#125;&#125;)</span><br><span class="line"><span class="comment">//回傳</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="string">"queryPlanner"</span> : &#123;</span><br><span class="line">        <span class="string">"plannerVersion"</span> : <span class="number">1</span>,</span><br><span class="line">        <span class="string">"namespace"</span> : <span class="string">"contactData.contacts"</span>,</span><br><span class="line">        <span class="string">"indexFilterSet"</span> : <span class="literal">false</span>,</span><br><span class="line">        <span class="string">"parsedQuery"</span> : &#123;</span><br><span class="line">                <span class="string">"dob.age"</span> : &#123;</span><br><span class="line">                        <span class="string">"$gt"</span> : <span class="number">60</span></span><br><span class="line">                &#125;</span><br><span class="line">        &#125;,</span><br><span class="line">        <span class="string">"winningPlan"</span> : &#123;</span><br><span class="line">                <span class="string">"stage"</span> : <span class="string">"COLLSCAN"</span>, <span class="comment">//COLLSCAN代表mongodb掃描了整個collection</span></span><br><span class="line">                <span class="string">"filter"</span> : &#123;</span><br><span class="line">                        <span class="string">"dob.age"</span> : &#123;</span><br><span class="line">                                <span class="string">"$gt"</span> : <span class="number">60</span></span><br><span class="line">                        &#125;</span><br><span class="line">                &#125;,</span><br><span class="line">                <span class="string">"direction"</span> : <span class="string">"forward"</span></span><br><span class="line">        &#125;,</span><br><span class="line">        <span class="string">"rejectedPlans"</span> : [ ]</span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="string">"serverInfo"</span> : &#123;</span><br><span class="line">            <span class="string">"host"</span> : <span class="string">"LAPTOP-FR3O3E10"</span>,</span><br><span class="line">            <span class="string">"port"</span> : <span class="number">27017</span>,</span><br><span class="line">            <span class="string">"version"</span> : <span class="string">"4.0.11"</span>,</span><br><span class="line">            <span class="string">"gitVersion"</span> : <span class="string">"417d1a712e9f040d54beca8e4943edce218e9a8c"</span></span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="string">"ok"</span> : <span class="number">1</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">db.contacts.explain(<span class="string">"executionStats"</span>).find(&#123;<span class="string">"dob.age"</span>: &#123;<span class="attr">$gt</span>: <span class="number">60</span>&#125;&#125;)</span><br><span class="line"><span class="comment">//回傳會多以下資訊</span></span><br><span class="line"> <span class="string">"executionStats"</span> : &#123;</span><br><span class="line">    <span class="string">"executionSuccess"</span> : <span class="literal">true</span>,</span><br><span class="line">    <span class="string">"nReturned"</span> : <span class="number">1222</span>, <span class="comment">//符合條件的documents</span></span><br><span class="line">    <span class="string">"executionTimeMillis"</span> : <span class="number">74</span>, <span class="comment">//整個query所花的時間(74 milliseconds)</span></span><br><span class="line">    <span class="string">"totalKeysExamined"</span> : <span class="number">0</span>,</span><br><span class="line">    <span class="string">"totalDocsExamined"</span> : <span class="number">5000</span>, <span class="comment">//總共多少doucuments</span></span><br><span class="line">    <span class="string">"executionStages"</span> : &#123;</span><br><span class="line">            <span class="string">"stage"</span> : <span class="string">"COLLSCAN"</span>,</span><br><span class="line">            <span class="string">"filter"</span> : &#123;</span><br><span class="line">                    <span class="string">"dob.age"</span> : &#123;</span><br><span class="line">                            <span class="string">"$gt"</span> : <span class="number">60</span></span><br><span class="line">                    &#125;</span><br><span class="line">            &#125;,</span><br><span class="line">            <span class="string">"nReturned"</span> : <span class="number">1222</span>,</span><br><span class="line">            <span class="string">"executionTimeMillisEstimate"</span> : <span class="number">71</span>,</span><br><span class="line">            <span class="string">"works"</span> : <span class="number">5002</span>,</span><br><span class="line">            <span class="string">"advanced"</span> : <span class="number">1222</span>,</span><br><span class="line">            <span class="string">"needTime"</span> : <span class="number">3779</span>,</span><br><span class="line">            <span class="string">"needYield"</span> : <span class="number">0</span>,</span><br><span class="line">            <span class="string">"saveState"</span> : <span class="number">40</span>,</span><br><span class="line">            <span class="string">"restoreState"</span> : <span class="number">40</span>,</span><br><span class="line">            <span class="string">"isEOF"</span> : <span class="number">1</span>,</span><br><span class="line">            <span class="string">"invalidates"</span> : <span class="number">0</span>,</span><br><span class="line">            <span class="string">"direction"</span> : <span class="string">"forward"</span>,</span><br><span class="line">            <span class="string">"docsExamined"</span> : <span class="number">5000</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>createIndex(): 創造index的方法，如此一來被指定的field會代表指標指向不同的documents，並且這些指標是按照順序排列的</li>
+<li>dropIndex(): 刪掉之前所創造的index，傳的參數跟createIndex一樣</li>
+<li>getIndexes(): 可以查看現有的index，mongodb會自動以_id作為index。db.contacts.getIndexes()</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">db.contacts.createIndex(&#123;<span class="string">"dob.age"</span>: <span class="number">1</span>&#125;) <span class="comment">//決定要使用index的field，1代表遞增，-1代表遞減</span></span><br><span class="line"><span class="comment">//這時我們再下跟剛剛一樣的query</span></span><br><span class="line">db.contacts.explain().find(&#123;<span class="string">"dob.age"</span>: &#123;<span class="attr">$gt</span>: <span class="number">60</span>&#125;&#125;)</span><br><span class="line"><span class="comment">//回傳</span></span><br><span class="line"><span class="string">"executionStats"</span> : &#123;</span><br><span class="line">    <span class="string">"executionSuccess"</span> : <span class="literal">true</span>,</span><br><span class="line">    <span class="string">"nReturned"</span> : <span class="number">1222</span>,</span><br><span class="line">    <span class="string">"executionTimeMillis"</span> : <span class="number">2</span>, <span class="comment">//query的速度變快了</span></span><br><span class="line">    <span class="string">"totalKeysExamined"</span> : <span class="number">1222</span>,</span><br><span class="line">    <span class="string">"totalDocsExamined"</span> : <span class="number">1222</span>,</span><br><span class="line">    <span class="string">"executionStages"</span> : &#123;</span><br><span class="line">        <span class="string">"stage"</span> : <span class="string">"FETCH"</span>,</span><br><span class="line">        <span class="string">"nReturned"</span> : <span class="number">1222</span>,</span><br><span class="line">        <span class="string">"executionTimeMillisEstimate"</span> : <span class="number">0</span>,</span><br><span class="line">        <span class="string">"works"</span> : <span class="number">1223</span>,</span><br><span class="line">        <span class="string">"advanced"</span> : <span class="number">1222</span>,</span><br><span class="line">        <span class="string">"needTime"</span> : <span class="number">0</span>,</span><br><span class="line">        <span class="string">"needYield"</span> : <span class="number">0</span>,</span><br><span class="line">        <span class="string">"saveState"</span> : <span class="number">9</span>,</span><br><span class="line">        <span class="string">"restoreState"</span> : <span class="number">9</span>,</span><br><span class="line">        <span class="string">"isEOF"</span> : <span class="number">1</span>,</span><br><span class="line">        <span class="string">"invalidates"</span> : <span class="number">0</span>,</span><br><span class="line">        <span class="string">"docsExamined"</span> : <span class="number">1222</span>,</span><br><span class="line">        <span class="string">"alreadyHasObj"</span> : <span class="number">0</span>,</span><br><span class="line">        <span class="string">"inputStage"</span> : &#123;</span><br><span class="line">            <span class="string">"stage"</span> : <span class="string">"IXSCAN"</span>, <span class="comment">//使用了Index Scan</span></span><br><span class="line">            <span class="string">"nReturned"</span> : <span class="number">1222</span>,</span><br><span class="line">            <span class="string">"executionTimeMillisEstimate"</span> : <span class="number">0</span>,</span><br><span class="line">            <span class="string">"works"</span> : <span class="number">1223</span>,</span><br><span class="line">            <span class="string">"advanced"</span> : <span class="number">1222</span>,</span><br><span class="line">            <span class="comment">//省略</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure>
+
+<h2 id="compound-index"><a href="#compound-index" class="headerlink" title="compound index"></a>compound index</h2><ul>
+<li>可不只根據一個field創造index，可以由兩個field組合成一個index</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">db.contacts.createIndex(&#123;<span class="string">"dob.age"</span>: <span class="number">1</span>, <span class="attr">gender</span>: <span class="number">1</span>&#125;) <span class="comment">//會這樣排序: 31 male, 31 female, 32 male, 32 female etc..</span></span><br><span class="line"><span class="comment">//indexName將會是"dob.age_1_gender_1"</span></span><br><span class="line"><span class="comment">//這時我們同時使用dob.age和gender作為query條件時，mongodb會使用index scan，單獨只有dob.age時也會使用index scan</span></span><br><span class="line"><span class="comment">//但當我們只使用第二個也就是gender作為query條件時，mongodb會使用collection scan，因為實際上male並不是由上到下按照順序</span></span><br><span class="line"><span class="comment">//所以假如我們結合了四個field作為一個index，同時使用4個field作為query條件、同時使用前三個、前兩個、或只有第一個時，會使用index scan，但除此之外都會使用collection scan</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>使用index還有一好處，假如沒有index，當結合sort()時，mongodb會先將所有documents載入記憶體，而這個容量有個上限為32mb，在大部分的狀況下這會造成timeout</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">db.contacts.explain().find(&#123;<span class="string">"dob.age"</span>: <span class="number">35</span>&#125;).sort(&#123;<span class="attr">gender</span>: <span class="number">1</span>&#125;)<span class="comment">//就算只有使用age作為query條件，但mongodb最知道你也使用了gender作為sort條件，而使用index</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="unique-index"><a href="#unique-index" class="headerlink" title="unique index"></a>unique index</h2><ul>
+<li>另一個用處是，可以透過設定第二參數將index設定為unique，藉此防止重複資料的發生，使用insert插入的資料如果unique index有重複就會出現錯誤或警告</li>
+<li>要注意的是如果我們有兩筆資料，一個有email另一個沒有email，將email作為index並設為unique會成功，但當insert另一個沒有email的資料時會出現錯誤，因為email為no value重複了(沒有email的資料重複)，我們可以利用partial filter來解決</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">db.contacts.createIndex(&#123;<span class="attr">email</span>: <span class="number">1</span>&#125;, &#123;<span class="attr">unique</span>: <span class="literal">true</span>&#125;) <span class="comment">//如果email有重複將會出現error</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="partial-filter-with-index"><a href="#partial-filter-with-index" class="headerlink" title="partial filter with index"></a>partial filter with index</h2><ul>
+<li>有時候必須頻繁的查找特定條件的field，就不需要幫整個collection都都加進index的對象裡，這時可以使用partial index</li>
+<li>unique index提到的no value重複的問題可以用partial index解決</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//只有gender為male的document才會根據dob.age為順序產生index</span></span><br><span class="line">db.contacts.createIndex(&#123;<span class="string">"dob.age"</span>: <span class="number">1</span>&#125;, &#123;<span class="attr">partialFilterExpression</span>: &#123;<span class="attr">gender</span>: <span class="string">"male"</span>&#125;&#125;)</span><br><span class="line"><span class="comment">//這會進行collection scan，mongodb必須確定你取得所有dob.age大於60的資料，因為dob.age大於60但gender是female的話將不會在index裡</span></span><br><span class="line">db.contacts.explain().find(&#123;<span class="string">"dob.age"</span>: &#123;<span class="attr">$gt</span>: <span class="number">60</span>&#125;&#125;)</span><br><span class="line"><span class="comment">//但如果使用以下的query就會是index scan，而且因為index容量較短，會比compound index或只有index更有效率，而當我們加入gender非male的document時也不會被加入index裡</span></span><br><span class="line">db.contacts.explain().find(&#123;<span class="string">"dob.age"</span>: &#123;<span class="attr">$gt</span>: <span class="number">60</span>&#125;, <span class="attr">gender</span>: <span class="string">"male"</span>&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment">//unique index裡的no value重複的解決辦法是結合partial filter，email存在的document才會被加入index</span></span><br><span class="line">db.users.createIndex(&#123;<span class="attr">email</span>: <span class="number">1</span>&#125;, &#123;<span class="attr">unique</span>: <span class="literal">true</span>, <span class="attr">partialFilterExpression</span>: &#123;<span class="attr">email</span>: &#123;<span class="attr">$exists</span>: <span class="literal">true</span>&#125;&#125;&#125;)</span><br></pre></td></tr></table></figure>
+
+<h2 id="Time-to-live-TTL-index"><a href="#Time-to-live-TTL-index" class="headerlink" title="Time to live(TTL) index"></a>Time to live(TTL) index</h2><ul>
+<li>TTL index將會設定自動消滅document的時間，適合用在session資料，或是過了期限必須自動消滅的資料</li>
+<li>只能用在time data，不能用在compound index。如果使用在非時間的field不會error但會被自動忽略</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//假設以下的指令按照順序執行</span></span><br><span class="line">db.sessions.insertOne(&#123;<span class="attr">data</span>: <span class="string">"sdfsf"</span>&#125;, <span class="attr">createAt</span>: <span class="keyword">new</span> <span class="built_in">Date</span>())</span><br><span class="line">db.sessions.createIndex(&#123;<span class="attr">createAt</span>: <span class="number">1</span>&#125;, &#123;<span class="attr">expireAfterSeconds</span>: <span class="number">10</span>&#125;)<span class="comment">//雖然已經產生index，但是過了10秒舊有的資料(上面那行insert的資料)還不會被刪除</span></span><br><span class="line">db.sessions.insertOne(&#123;<span class="attr">data</span>: <span class="string">"4533"</span>&#125;, <span class="attr">createAt</span>: <span class="keyword">new</span> <span class="built_in">Date</span>()) <span class="comment">//過了10秒後，兩筆資料都會被刪除，insert資料會促使mongodb檢查整個document的TTL index</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="Multi-key-index"><a href="#Multi-key-index" class="headerlink" title="Multi-key index"></a>Multi-key index</h2><ul>
+<li>如果我們設為index的對象本身是一個array，mongodb將其視為multi-key index</li>
+<li>multi-key儲存index的方式和一般的index不同，如果一個array有四個elements，這些elements會被另外擷取出來形成index，如果有1000個documents一個document被設為index的field是個array且平均element數為4，index將會有4*1000之多</li>
+<li>multy-key index可以和一般的index組成coumpound index，但是兩個multi-key不能組成compound index</li>
+</ul>
+<h2 id="Text-index"><a href="#Text-index" class="headerlink" title="Text index"></a>Text index</h2><ul>
+<li>text index也是multi-key的一種</li>
+<li>前面也有介紹搜尋特定的字串時可以使用regular expression($regex)的方式，但是該方式的效能並不是很好，Text index可以提供更好的解決辦法</li>
+<li>text index會將一段字串針對每個單詞作切割存到text index的array裡，且會自動過濾掉暫停字句(a, the etc.)</li>
+<li>所有的大寫字母會被統一轉成小寫字母</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//text index創造的方法有些不同，不是設定1或-1而是"text"，如果使用1或-1就會變成一般的index</span></span><br><span class="line">db.products.createIndex(&#123;<span class="attr">decription</span>: <span class="string">"text"</span>&#125;)</span><br><span class="line"><span class="comment">//查找被設為text index的field的內容時，不用指定field，因為一個collection通常只有一個text index(非常expensive)</span></span><br><span class="line">db.products.find(&#123;<span class="attr">$text</span>: &#123;<span class="attr">$search</span>: <span class="string">"awsome"</span>&#125;&#125;) <span class="comment">//description包含awsome的document會被列出來</span></span><br><span class="line">db.products.find(&#123;<span class="attr">$text</span>: &#123;<span class="attr">$search</span>: <span class="string">"red book"</span>&#125;&#125;) <span class="comment">//description包含red或book的document會被列出來</span></span><br><span class="line">db.products.find(&#123;<span class="attr">$text</span>: &#123;<span class="attr">$search</span>: <span class="string">"\"red book\""</span>&#125;&#125;)<span class="comment">//如果找兩個詞連在一起的話要用\"包起來</span></span><br><span class="line"><span class="string">``</span><span class="string">` </span></span><br><span class="line"><span class="string">- 可以使用projection的方式加入一個新的field來看查找的字串與document的相關度</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">`</span><span class="string">``</span> javascript</span><br><span class="line"><span class="comment">//score: &#123;$meta: "textScore"&#125;是固定用法</span></span><br><span class="line">db.products.find(&#123;<span class="attr">$text</span>: &#123;<span class="attr">$search</span>: <span class="string">"awesome t-shirt"</span>&#125;&#125;, &#123;<span class="attr">score</span>: &#123;<span class="attr">$meta</span>: <span class="string">"textScore"</span>&#125;&#125;).pretty()</span><br><span class="line"><span class="comment">//回傳，</span></span><br><span class="line">    <span class="string">"_id"</span> : ObjectId(<span class="string">"5d5f78b89d620bff5f141e92"</span>),</span><br><span class="line">    <span class="string">"title"</span> : <span class="string">"Red T-Shirt"</span>,</span><br><span class="line">    <span class="string">"description"</span> : <span class="string">"This T-Shirt is red and it's pretty awesome!"</span>, </span><br><span class="line">    <span class="string">"score"</span> : <span class="number">1.7999999999999998</span> <span class="comment">//包含了awesome以及t-shirt所以分數高</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">    <span class="string">"_id"</span> : ObjectId(<span class="string">"5d5f78b89d620bff5f141e93"</span>),</span><br><span class="line">    <span class="string">"title"</span> : <span class="string">"A Book"</span>,</span><br><span class="line">    <span class="string">"description"</span> : <span class="string">"This is an awesome book about a young artist!"</span>,</span><br><span class="line">    <span class="string">"score"</span> : <span class="number">0.625</span> <span class="comment">//只有awesome分數相對低</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//可以在針對score作排序</span></span><br><span class="line">db.products.find(&#123;<span class="attr">$text</span>: &#123;<span class="attr">$search</span>: <span class="string">"awesome t-shirt"</span>&#125;&#125;, &#123;<span class="attr">score</span>: &#123;<span class="attr">$meta</span>: <span class="string">"textScore"</span>&#125;&#125;).sort(&#123;<span class="attr">score</span>: &#123;<span class="attr">$meta</span>: <span class="string">"textScore"</span>&#125;&#125;).pretty()</span><br></pre></td></tr></table></figure>
+
+<h2 id="Combine-text-index"><a href="#Combine-text-index" class="headerlink" title="Combine text index"></a>Combine text index</h2><ul>
+<li>以上面的products例子來說，如果想將title也設成text index會失敗，因為我們只能有一個text index，但是可以結合text index來解決這個問題</li>
+<li>額外說明如果要將text index給刪除我們必須下db.products.dropIndex(“description_text”)，而不是dropIndex(description: “text”)，”description_text”可以使用getIndexes來查看</li>
+<li>不只是可以查找包含哪些字串，還可以找包含特定字串但不包含其他特定字串，可以藉由 - 號來設定</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//刪除所有text index後，來創造combine text index</span></span><br><span class="line">db.products.createIndex(&#123;<span class="attr">title</span>: <span class="string">"text"</span>, <span class="attr">decription</span>: <span class="string">"text"</span>&#125;)<span class="comment">//接著我們查找字串時，如果title也有包含該字串也會被列出來</span></span><br><span class="line"></span><br><span class="line">db.products.find(&#123;<span class="attr">$text</span>: &#123;<span class="attr">$search</span>: <span class="string">"awesome -t-shirt"</span>&#125;&#125;)<span class="comment">//有awesome但沒有t-shirt的document才會被列出來</span></span><br><span class="line"><span class="string">``</span><span class="string">` </span></span><br><span class="line"><span class="string">- 可以針對text index作一些設定</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">`</span><span class="string">``</span> javascript</span><br><span class="line"><span class="comment">//使用getIndexes()時，可以看到一些field代表一些參數，我們可以設定他</span></span><br><span class="line">db.products.getIndexes()</span><br><span class="line"><span class="comment">//回傳</span></span><br><span class="line">&#123;</span><br><span class="line">        <span class="string">"v"</span> : <span class="number">2</span>,</span><br><span class="line">        <span class="string">"key"</span> : &#123;</span><br><span class="line">                <span class="string">"_id"</span> : <span class="number">1</span></span><br><span class="line">        &#125;,</span><br><span class="line">        <span class="string">"name"</span> : <span class="string">"_id_"</span>,</span><br><span class="line">        <span class="string">"ns"</span> : <span class="string">"shop.products"</span></span><br><span class="line">&#125;,</span><br><span class="line">&#123;</span><br><span class="line">        <span class="string">"v"</span> : <span class="number">2</span>,</span><br><span class="line">        <span class="string">"key"</span> : &#123;</span><br><span class="line">                <span class="string">"_fts"</span> : <span class="string">"text"</span>,</span><br><span class="line">                <span class="string">"_ftsx"</span> : <span class="number">1</span></span><br><span class="line">        &#125;,</span><br><span class="line">        <span class="string">"name"</span> : <span class="string">"description_text"</span>, <span class="comment">//刪除index時可以用這個name</span></span><br><span class="line">        <span class="string">"ns"</span> : <span class="string">"shop.products"</span>,</span><br><span class="line">        <span class="string">"weights"</span> : &#123;               <span class="comment">//還可以設定權重，將會影響我們前面用過的textScore</span></span><br><span class="line">                <span class="string">"description"</span> : <span class="number">1</span></span><br><span class="line">        &#125;,</span><br><span class="line">        <span class="string">"default_language"</span> : <span class="string">"english"</span>, <span class="comment">//可以設定</span></span><br><span class="line">        <span class="string">"language_override"</span> : <span class="string">"language"</span>,</span><br><span class="line">        <span class="string">"textIndexVersion"</span> : <span class="number">3</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">db.products.dropIndex(<span class="string">"description_text"</span>) <span class="comment">//先把之前的刪除</span></span><br><span class="line"></span><br><span class="line">db.products.createIndex(&#123;<span class="attr">title</span>: <span class="string">"text"</span>, <span class="attr">description</span>: <span class="string">"text"</span>&#125;, &#123;<span class="attr">default_language</span>: <span class="string">"english"</span>, <span class="attr">weights</span>: &#123;<span class="attr">title</span>: <span class="number">1</span>, <span class="attr">description</span>: <span class="number">10</span>&#125;&#125;)</span><br><span class="line"><span class="comment">//這時我們一樣使用projection加入score，會發現分數會根據weights會有變化</span></span><br><span class="line"><span class="comment">//還有一點我們也可以在search的時候加入一些設定，如下</span></span><br><span class="line">db.products.find($text: &#123;<span class="attr">$search</span>: <span class="string">"red"</span>, <span class="attr">$language</span>: <span class="string">"german"</span>&#125;)<span class="comment">//document內容可能使用不同的語言</span></span><br><span class="line">db.products.find($text: &#123;<span class="attr">$search</span>: <span class="string">"red"</span>, <span class="attr">$caseSensitive</span>: <span class="literal">true</span>&#125;)</span><br></pre></td></tr></table></figure>
+
+<h2 id="Create-index-in-the-foreground-or-background"><a href="#Create-index-in-the-foreground-or-background" class="headerlink" title="Create index in the foreground or background"></a>Create index in the foreground or background</h2><ul>
+<li>上面所示範的createIndex都是在foreground執行，這兩者有些差異<ul>
+<li>foreground: index在創造期間collection會被鎖住，不能insert或find等操作，index創造速度較快</li>
+<li>background: 相對於foreground，collection不會被鎖住，但index創造速度較慢</li>
+</ul>
+</li>
+<li>假設我們同時連線mongodb並創造index，在index還沒完成之前我們插入某一筆資料，這筆資料要一直等到index完成後才會被插入，大型專案的情況下，index可能需要幾分鐘才會被完成，如果在foreground執行會造成整個應用出問題</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">db.rating.createIndex(&#123;<span class="attr">age</span>: <span class="number">1</span>&#125;, &#123;<span class="attr">background</span>: <span class="literal">true</span>&#125;)<span class="comment">//如此一來就可以在background執行</span></span><br></pre></td></tr></table></figure>
+    </div>
+
+    
+    
+    
+        
+      
+
+      <footer class="post-footer">
+          
+            
+          
+          <div class="post-tags">
+            
+              <a href="/tags/backend/" rel="tag"># backend</a>
+            
+              <a href="/tags/database/" rel="tag"># database</a>
+            
+              <a href="/tags/mongoDB/" rel="tag"># mongoDB</a>
+            
+              <a href="/tags/mongo-shell/" rel="tag"># mongo shell</a>
+            
+          </div>
+        
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+              
+                <a href="/2019/07/09/japan-voc/" rel="next" title="日本IT用語對照">
+                  <i class="fa fa-chevron-left"></i> 日本IT用語對照
+                </a>
+              
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+              
+                <a href="/2019/08/23/mongodb/" rel="prev" title="mongoDB 基礎2">
+                  mongoDB 基礎2 <i class="fa fa-chevron-right"></i>
+                </a>
+              
+            </div>
+          </div>
+        
+      </footer>
+    
+  </div>
+  
+  
+  
+  </article>
+
+  </div>
+
+
+          </div>
+          
+
+        </div>
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+        
+        
+        
+        
+      
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#啟動mongoDB-server"><span class="nav-number">1.</span> <span class="nav-text">啟動mongoDB server</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#MongoDB設定檔"><span class="nav-number">2.</span> <span class="nav-text">MongoDB設定檔</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#匯入Json檔到資料庫-import"><span class="nav-number">3.</span> <span class="nav-text">匯入Json檔到資料庫(import)</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#MongoDB-shell-基礎指令"><span class="nav-number">4.</span> <span class="nav-text">MongoDB shell 基礎指令</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Read"><span class="nav-number">4.1.</span> <span class="nav-text">Read</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Comparison-Operators"><span class="nav-number">4.1.1.</span> <span class="nav-text">Comparison Operators</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Logical-Operators"><span class="nav-number">4.1.2.</span> <span class="nav-text">Logical Operators</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Element-operator"><span class="nav-number">4.1.3.</span> <span class="nav-text">Element operator</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Evaluation-operator"><span class="nav-number">4.1.4.</span> <span class="nav-text">Evaluation operator</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Array"><span class="nav-number">4.1.5.</span> <span class="nav-text">Array</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Cursor"><span class="nav-number">4.1.6.</span> <span class="nav-text">Cursor</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Projection"><span class="nav-number">4.1.7.</span> <span class="nav-text">Projection</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Create"><span class="nav-number">4.2.</span> <span class="nav-text">Create</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#mongoDB預設的行為"><span class="nav-number">4.2.1.</span> <span class="nav-text">mongoDB預設的行為</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Update"><span class="nav-number">4.3.</span> <span class="nav-text">Update</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Delete"><span class="nav-number">4.4.</span> <span class="nav-text">Delete</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#MongoDB資料型態"><span class="nav-number">5.</span> <span class="nav-text">MongoDB資料型態</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#使用非預設的數字型態可以使用如下方法"><span class="nav-number">5.1.</span> <span class="nav-text">使用非預設的數字型態可以使用如下方法</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#設定Schema的validation"><span class="nav-number">6.</span> <span class="nav-text">設定Schema的validation</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Index"><span class="nav-number">7.</span> <span class="nav-text">Index</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#讓MongoDB給出更詳細的query資訊"><span class="nav-number">7.1.</span> <span class="nav-text">讓MongoDB給出更詳細的query資訊</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#compound-index"><span class="nav-number">7.2.</span> <span class="nav-text">compound index</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#unique-index"><span class="nav-number">7.3.</span> <span class="nav-text">unique index</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#partial-filter-with-index"><span class="nav-number">7.4.</span> <span class="nav-text">partial filter with index</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Time-to-live-TTL-index"><span class="nav-number">7.5.</span> <span class="nav-text">Time to live(TTL) index</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Multi-key-index"><span class="nav-number">7.6.</span> <span class="nav-text">Multi-key index</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Text-index"><span class="nav-number">7.7.</span> <span class="nav-text">Text index</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Combine-text-index"><span class="nav-number">7.8.</span> <span class="nav-text">Combine text index</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Create-index-in-the-foreground-or-background"><span class="nav-number">7.9.</span> <span class="nav-text">Create index in the foreground or background</span></a></li></ol></li></ol></div>
+        
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">YENCHENG LIU</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+  <nav class="site-state motion-element">
+      <div class="site-state-item site-state-posts">
+        
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">8</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-categories">
+        
+          
+            <a href="/categories/">
+          
+        
+        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-name">categories</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-tags">
+        
+          
+            <a href="/tags/">
+          
+        
+        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-name">tags</span>
+        </a>
+      </div>
+    
+  </nav>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="mailto:yourname@gmail.com" title="E-Mail &rarr; mailto:yourname@gmail.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+    
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">YENCHENG LIU</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> v3.8.0</div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">Theme – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.4.0</div>
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+
+
+  <script src="/lib/anime.min.js?v=3.1.0"></script>
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+<script src="/js/utils.js?v=7.4.0"></script><script src="/js/motion.js?v=7.4.0"></script>
+<script src="/js/schemes/pisces.js?v=7.4.0"></script>
+
+<script src="/js/next-boot.js?v=7.4.0"></script>
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>

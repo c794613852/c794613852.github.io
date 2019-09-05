@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+
+
+
+
+
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.8.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.4.0">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.4.0">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.4.0">
+  <link rel="mask-icon" href="/images/logo.svg?v=7.4.0" color="#222">
+
+<link rel="stylesheet" href="/css/main.css?v=7.4.0">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.4.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: '',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: 'Copy',
+      copy_success: 'Copied',
+      copy_failure: 'Copy failed'
+    },
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="Authentication and Authorization   Authentication Authorization    識別對資料庫來說有效的使用者 識別有效的使用者中他們能做什麼操作   比喻: 例如一家公司的員工被允許進入辦公室 比喻: 公司的員工帳號允許進入辦公室並處理訂單    每個user有專屬的roles，roles包含了一個或多個privileges，而privile">
+<meta name="keywords" content="backend,database,mongoDB,mongo shell">
+<meta property="og:type" content="article">
+<meta property="og:title" content="mongoDB 基礎3">
+<meta property="og:url" content="http://yencheng.com/2019/08/28/mongodb/index.html">
+<meta property="og:site_name" content="yencheng&#39;s code blog">
+<meta property="og:description" content="Authentication and Authorization   Authentication Authorization    識別對資料庫來說有效的使用者 識別有效的使用者中他們能做什麼操作   比喻: 例如一家公司的員工被允許進入辦公室 比喻: 公司的員工帳號允許進入辦公室並處理訂單    每個user有專屬的roles，roles包含了一個或多個privileges，而privile">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2019-09-05T11:51:23.183Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="mongoDB 基礎3">
+<meta name="twitter:description" content="Authentication and Authorization   Authentication Authorization    識別對資料庫來說有效的使用者 識別有效的使用者中他們能做什麼操作   比喻: 例如一家公司的員工被允許進入辦公室 比喻: 公司的員工帳號允許進入辦公室並處理訂單    每個user有專屬的roles，roles包含了一個或多個privileges，而privile">
+  <link rel="canonical" href="http://yencheng.com/2019/08/28/mongodb/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>mongoDB 基礎3 | yencheng's code blog</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">yencheng's code blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+      
+      
+      
+        
+        <li class="menu-item menu-item-home">
+      
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>Home</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-about">
+      
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>About</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-tags">
+      
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>Tags</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-categories">
+      
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>Categories</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-archives">
+      
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>Archives</a>
+
+  </li>
+  </ul>
+
+</nav>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+            
+
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+      <article itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block post">
+    <link itemprop="mainEntityOfPage" href="http://yencheng.com/2019/08/28/mongodb/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="YENCHENG LIU">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="yencheng's code blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">mongoDB 基礎3
+
+          
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              
+                
+              
+
+              <time title="Created: 2019-08-28 15:43:25" itemprop="dateCreated datePublished" datetime="2019-08-28T15:43:25+09:00">2019-08-28</time>
+            </span>
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2019-09-05 20:51:23" itemprop="dateModified" datetime="2019-09-05T20:51:23+09:00">2019-09-05</time>
+              </span>
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/MongoDB/" itemprop="url" rel="index"><span itemprop="name">MongoDB</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <hr>
+<h1 id="Authentication-and-Authorization"><a href="#Authentication-and-Authorization" class="headerlink" title="Authentication and Authorization"></a>Authentication and Authorization</h1><table>
+<thead>
+<tr>
+<th align="left">Authentication</th>
+<th align="left">Authorization</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">識別對資料庫來說有效的使用者</td>
+<td align="left">識別有效的使用者中他們能做什麼操作</td>
+</tr>
+<tr>
+<td align="left">比喻: 例如一家公司的員工被允許進入辦公室</td>
+<td align="left">比喻: 公司的員工帳號允許進入辦公室並處理訂單</td>
+</tr>
+</tbody></table>
+<ul>
+<li>每個user有專屬的roles，roles包含了一個或多個privileges，而privileges定義了該user能進入那些database和進行那些操作</li>
+<li>Privileges<ul>
+<li>Resources: 能進入的database、collections</li>
+<li>Actions: 能進行的操作，例如insert()</li>
+</ul>
+</li>
+<li>資料庫的使用者可以有不同的分工 (Roles)，被給予的權限也不一樣(可以避免意外的發生)</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th align="center">Administrator</th>
+<th align="center">Developer/Your app</th>
+<th align="center">Data Scientist</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">能管理資料庫的設定，新增使用者</td>
+<td align="center">需要進行新增、刪除、閱讀等操作(CRUD)</td>
+<td align="center">需要能夠抓取資料</td>
+</tr>
+<tr>
+<td align="center">不需要新增或取用資料</td>
+<td align="center">不需要新增使用者或管理資料庫設定</td>
+<td align="center">不需要進行新增、刪除等操作</td>
+</tr>
+</tbody></table>
+<a id="more"></a>
+
+<h2 id="開啟使用者認證功能的方式啟動MongoDB"><a href="#開啟使用者認證功能的方式啟動MongoDB" class="headerlink" title="開啟使用者認證功能的方式啟動MongoDB"></a>開啟使用者認證功能的方式啟動MongoDB</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo mongod --auth</span><br><span class="line">//然後進入mongo shell</span><br><span class="line">mongo</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//兩種使用者登入mongo server的方式</span></span><br><span class="line"><span class="comment">//第一種是在mongo shell外面</span></span><br><span class="line">mongo -u <span class="string">"username"</span> -p <span class="string">"password"</span></span><br><span class="line"><span class="comment">//第二種進入mongo shell後</span></span><br><span class="line">db.auth(<span class="string">"username"</span>,<span class="string">"password"</span>)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>在沒有建立任何一個user的情況下連接mongodb時，mongodb允許在localhost連接的狀態下新增user，且該user擁有完整的功能</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//必須先進入amin database</span></span><br><span class="line">use admin</span><br><span class="line">db.createUser(&#123;<span class="attr">user</span>: <span class="string">"god"</span>, <span class="attr">pwd</span>: <span class="string">"god"</span>, <span class="attr">roles</span>: [<span class="string">"userAdminAnyDatabase"</span>]&#125;)</span><br><span class="line"><span class="comment">//接著必須登入</span></span><br><span class="line">db.auth(<span class="string">'god'</span>, <span class="string">'god'</span>)</span><br><span class="line"><span class="comment">//如果我們跳出shell直接在外面登入，必須表明該帳號在哪個database被建立，否則會登入失敗</span></span><br><span class="line">mongo -u god -p god --authenticationDatabase admin</span><br><span class="line"></span><br><span class="line"><span class="comment">//接著可以進入別的database建立其他user</span></span><br><span class="line">use shop</span><br><span class="line">db.createUser(&#123;<span class="attr">user</span>: <span class="string">"user1"</span>, <span class="attr">pwd</span>: <span class="string">"user1"</span>, <span class="attr">roles</span>: [<span class="string">"readWrite"</span>]&#125;)</span><br><span class="line"><span class="comment">//接著登入，要注意的是目前user1只能在shop database裡進行"readWrite"所給予的權限</span></span><br><span class="line">db.auth(&#123;<span class="string">'user1'</span>, <span class="string">'user1'</span>&#125;)</span><br><span class="line"><span class="comment">//接著嘗試新增一個document會出現錯誤，mongo shell會告訴你因為有多個user被認證，因為剛剛的god沒有先登入</span></span><br><span class="line"><span class="comment">//可以先登出god再登入user1</span></span><br><span class="line">db.logout()</span><br><span class="line"><span class="comment">//或是直接跳出mongo shell登入</span></span><br><span class="line">mongo -u user1 -p user1 --authenticationDatabase shop</span><br></pre></td></tr></table></figure>
+
+<p>有哪些roles可以設定以及該roles有哪些權限可以參考<a href="https://docs.mongodb.com/manual/reference/built-in-roles/" target="_blank" rel="noopener">官方文件</a></p>
+<ul>
+<li>有時一個帳號需要可以操作兩個database，可以使用updateUser去設定user權限</li>
+<li>有個重要的原則是，該user是在哪個database被建立的，就必須要在該database登入和登出<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//要設定user權限必須登入最高權限的user</span></span><br><span class="line">use admin</span><br><span class="line">db.auth(<span class="string">'god'</span>, <span class="string">'god'</span>)</span><br><span class="line">use shop</span><br><span class="line">db.updateUser(<span class="string">"user1"</span>, &#123;<span class="attr">roles</span>: [<span class="string">"readWrite"</span>, &#123;<span class="attr">role</span>: <span class="string">"readWrite"</span>, <span class="attr">db</span>: <span class="string">"blog"</span>&#125;]&#125;)</span><br><span class="line"><span class="comment">//如此一來user1也可以有blog的readWrite權限，可以使用getUser()來確認</span></span><br><span class="line">db.getUser(<span class="string">"user1"</span>)</span><br><span class="line"><span class="comment">//可以取得以下資訊</span></span><br><span class="line">    <span class="string">"_id"</span> : <span class="string">"shop.user1"</span>,</span><br><span class="line">    <span class="string">"userId"</span> : UUID(<span class="string">"20ef4181-c13b-4985-ab2f-c731ed577cb5"</span>),</span><br><span class="line">    <span class="string">"user"</span> : <span class="string">"user1"</span>,</span><br><span class="line">    <span class="string">"db"</span> : <span class="string">"shop"</span>,</span><br><span class="line">    <span class="string">"roles"</span> : [</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="string">"role"</span> : <span class="string">"readWrite"</span>,</span><br><span class="line">                <span class="string">"db"</span> : <span class="string">"shop"</span></span><br><span class="line">            &#125;,</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="string">"role"</span> : <span class="string">"readWrite"</span>,</span><br><span class="line">                <span class="string">"db"</span> : <span class="string">"blog"</span></span><br><span class="line">            &#125;</span><br><span class="line">    ],</span><br><span class="line">    <span class="string">"mechanisms"</span> : [</span><br><span class="line">            <span class="string">"SCRAM-SHA-1"</span>,</span><br><span class="line">            <span class="string">"SCRAM-SHA-256"</span></span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//必須回到admin才可以登出god，再回到shop登入user1</span></span><br><span class="line">use admin</span><br><span class="line">db.logout()</span><br><span class="line">use shop</span><br><span class="line">db.auth(<span class="string">"user1"</span>, <span class="string">"user1"</span>)</span><br><span class="line">use blog</span><br><span class="line"><span class="comment">//進行操作</span></span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h2 id="Encryption"><a href="#Encryption" class="headerlink" title="Encryption"></a>Encryption</h2><ul>
+<li>mongodb使用TLS/SSL加密方式建立mongodb與mongodb driver之間的連接</li>
+<li>一旦加密建立，沒有特殊key的話就不能隨意與mongodb連線(在cmd下mongo會被擋住)，也可以防止外部的惡意攻擊者的違法連線</li>
+<li>詳細SSL的相關設定參考<a href="https://docs.mongodb.com/manual/tutorial/configure-ssl/" target="_blank" rel="noopener">官網</a></li>
+</ul>
+<p>其他參考文件<br>Official “Encryption at Rest” Docs<a href="https://docs.mongodb.com/manual/core/security-encryption-at-rest/" target="_blank" rel="noopener">連結</a><br>Official Security Checklist<a href="https://docs.mongodb.com/manual/administration/security-checklist/" target="_blank" rel="noopener">連結</a></p>
+<h1 id="Perfromance-Fault-Tolerancy-amp-Deployment"><a href="#Perfromance-Fault-Tolerancy-amp-Deployment" class="headerlink" title="Perfromance, Fault Tolerancy&amp;Deployment"></a>Perfromance, Fault Tolerancy&amp;Deployment</h1><h2 id="Capped-collection"><a href="#Capped-collection" class="headerlink" title="Capped collection"></a>Capped collection</h2><ul>
+<li>capped collection是一種特殊的collection，可以設定他的最大儲存大小和儲存的document數，以確保該collection保持在一個簡潔的狀態下</li>
+<li>capped collection裡的資料會保證一定按照新增的順序所排序(一般的collection則不保證)</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//第一個參數為collection的名稱，第二個參數為一個物件，size是要求選項max則不是</span></span><br><span class="line"><span class="comment">//此範例的size設為最大不會超過10000byte和最大三個document，如果超過，最舊的資料會被刪除，新的資料會被插在最末尾</span></span><br><span class="line">db.createCollection(<span class="string">"capped"</span>, &#123;<span class="attr">capped</span>: <span class="literal">true</span>, <span class="attr">size</span>: <span class="number">10000</span>, <span class="attr">max</span>: <span class="number">3</span>&#125;)</span><br></pre></td></tr></table></figure>
+
+<h2 id="Replica-Sets"><a href="#Replica-Sets" class="headerlink" title="Replica Sets"></a>Replica Sets</h2><ul>
+<li>當我們寫入資料進資料庫時，實際上是先透過mongo shell傳達給mongodb server，mongodb server在傳達給primary node寫入資料(node其實也是mongodb server)</li>
+<li>我們可以增加更多的node，這些node被稱為Secondary node，所有的node集合稱為replica sets</li>
+<li>在一般的情況下，當insert、write等操作時都是跟primary node溝通(自動如此)，但primary node會異步的把資料複製給secondary node</li>
+<li>在我們read資料時，如果primary node因為一些原因離線了，可以直接連接到secondary node，並把該node視為新的primary node來讀取資料，透過primary node就可以不只是read也可以write資料(write一定要透過primary node)</li>
+<li>這個機制提供了server的容錯率</li>
+<li>透過使用者主動設定，可以在read時直接跳過primary node與secondary node溝通，這樣可以確保在read資料時能以最快的速度達成目的，假設每秒要處理幾千個read就可以透過複數的node來達成</li>
+</ul>
+<p><a href="https://docs.mongodb.com/manual/replication/" target="_blank" rel="noopener">參考資料</a></p>
+<h2 id="Sharding-Horizontal-Scaling"><a href="#Sharding-Horizontal-Scaling" class="headerlink" title="Sharding (Horizontal Scaling)"></a>Sharding (Horizontal Scaling)</h2><ul>
+<li>為了提高mongo server的效能，可以增加複數個server，這些server不會儲存相同的資料，而是為把資料切割分開儲存，這些資料會透過shard來分配</li>
+<li>query(insert, write, delete等)就必須透過這些server(或正確的server)，每個server管理不同的資料部位</li>
+<li>對mongo server來說，每個server都會有自己的shard，這些shard會是彼此的副本，這些server和client中間還有一個角色稱為mongos(Router)</li>
+<li>這個mongos有責任把inserts, read等operation發送給正確的shard，資料必須存在哪個server以及那些server必須提供查找的資料</li>
+<li>為了達成任務必須透過所謂的shard key，shard key存在於所有document，可以把他是為document的其中一個field，server就可以透過他知道該document是屬於誰</li>
+<li>使用find找資料時mongos有兩個選項能找到資料<ul>
+<li>如果使用的條件跟不包含shard key，mongos就會向所有的server廣播，讓server交出需要的資料，並把這些資料組合起來再提供給client</li>
+<li>或是直接使用的條件包含shard key，mongos就可以直接跟負責的server索取資料</li>
+</ul>
+</li>
+<li>所以如果有些find是要被頻繁執行的話，必須要有良好的設計，讓shard key被包含在搜尋的條件裡來提供效率</li>
+</ul>
+<p><a href="https://docs.mongodb.com/manual/sharding/" target="_blank" rel="noopener">參考資料</a></p>
+<h2 id="Deploy-mongoDB-server"><a href="#Deploy-mongoDB-server" class="headerlink" title="Deploy mongoDB server"></a>Deploy mongoDB server</h2><ul>
+<li>要把mongodb部屬到雲端上而不是在本地端，必須要管理很多任務。必須管理shard, replica set, secure user, encryption, regular backup protect web server/network, update software等複雜的任務</li>
+<li>對大部分的開發者來說這些任務超出了他們的能力範圍，這時候可以透過Atlas來幫我們輕鬆達成上述的任務</li>
+</ul>
+<h1 id="Transaction"><a href="#Transaction" class="headerlink" title="Transaction"></a>Transaction</h1><ul>
+<li>transaction必須要有replica set且mongo 4.0以上才可以運作</li>
+<li>假設有兩個collections user和post，user可以撰寫post，所以post會有一個field對應到是哪個user撰寫的(1對多)，如果我們把其中一個user刪除了，他所建立的post應該也要一併刪除，但是可能會有user成功刪除了，但post沒有順利全部刪除，而transaction可以幫助我們解決這個問題</li>
+<li>有關連的這些document要不是一起成功刪除，不然就一起刪除失敗</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">use blog</span><br><span class="line">db.users.insertOne(&#123;<span class="attr">_id</span>: <span class="number">1</span>,<span class="attr">user</span>: <span class="string">"Max"</span>&#125;)</span><br><span class="line">db.post.insertMany([&#123;<span class="attr">title</span>: <span class="string">"First post"</span>, <span class="attr">userId</span>: <span class="number">1</span>&#125;, &#123;<span class="attr">title</span>: <span class="string">"Second post"</span>, <span class="attr">userId</span>: <span class="number">1</span>&#125;])</span><br><span class="line"><span class="comment">//雖然可以使用delete把_id為1的user刪除再把userId為1的post刪除，但是不能保證百分之百每次都成功，所以需要transaction</span></span><br><span class="line"><span class="comment">//以下操作必須在Atlas執行(要有replica set)</span></span><br><span class="line"><span class="keyword">const</span> session = db.getMongo().startSession()</span><br><span class="line"><span class="comment">//該session可以把所有指令綁在一起然後一起執行(這個session本質也是個object)</span></span><br><span class="line"><span class="comment">//通常下完指令server就會忘記執行者是誰，所以需要session讓server知道這些指令都是屬於該操作者的</span></span><br><span class="line"><span class="keyword">const</span> postsColl = session.getDatabase(<span class="string">"blog"</span>).posts</span><br><span class="line"><span class="keyword">const</span> usersColl = session.getDatabase(<span class="string">"blog"</span>).users</span><br><span class="line">session.startTransaction()</span><br><span class="line">usersColl.deleteOne(&#123;<span class="attr">_id</span>: <span class="number">1</span>&#125;)<span class="comment">//執行這行後shell會顯示成功的訊息但實際上資料還在，可以把它看成是即將完成的任務</span></span><br><span class="line">postsColl.deleteMany(&#123;<span class="attr">userId</span>: <span class="number">1</span>&#125;)</span><br><span class="line">session.commitTransaction()<span class="comment">//執行後才會真正把document刪除，如果其中一個動作出錯，server會回復成原本的狀態(一起成功或一起失敗)</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//也可以終止</span></span><br><span class="line">session.abortTransaction()</span><br></pre></td></tr></table></figure>
+
+<p>Transaction<a href="https://docs.mongodb.com/manual/core/transactions/" target="_blank" rel="noopener">參考資料</a></p>
+<h1 id="From-shell-to-driver"><a href="#From-shell-to-driver" class="headerlink" title="From shell to driver"></a>From shell to driver</h1><ul>
+<li>有些任務必須分工合作，driver適合處理跟應用程式有關的邏輯處理<ul>
+<li>shell: Configure Database, Create Collection, Create Indexes</li>
+<li>driver: CRUD operations, Aggregation Pipelines</li>
+</ul>
+</li>
+</ul>
+<p>使用Node.js連接Mongodb範例</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> mongodb = <span class="built_in">require</span>(<span class="string">'mongodb'</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> MongoClient = mongodb.MongoClient;</span><br><span class="line"><span class="keyword">const</span> mongoDbUrl =</span><br><span class="line">  <span class="string">'mongodb+srv://maximilian:hqG9VedJmagiKhKo@cluster0-ntrwp.mongodb.net/shop?retryWrites=true'</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> _db;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> initDb = <span class="function"><span class="params">callback</span> =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">if</span> (_db) &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'Database is already initialized!'</span>);</span><br><span class="line">    <span class="keyword">return</span> callback(<span class="literal">null</span>, _db);</span><br><span class="line">  &#125;</span><br><span class="line">  MongoClient.connect(mongoDbUrl)</span><br><span class="line">    .then(<span class="function"><span class="params">client</span> =&gt;</span> &#123;</span><br><span class="line">      _db = client;</span><br><span class="line">      callback(<span class="literal">null</span>, _db);</span><br><span class="line">    &#125;)</span><br><span class="line">    .catch(<span class="function"><span class="params">err</span> =&gt;</span> &#123;</span><br><span class="line">      callback(err);</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> getDb = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">if</span> (!_db) &#123;</span><br><span class="line">    <span class="keyword">throw</span> <span class="built_in">Error</span>(<span class="string">'Database not initialzed'</span>);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> _db;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">  initDb,</span><br><span class="line">  getDb</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>藉由此段程式碼就可以在其他檔案連接資料庫而不重複與mongodb連線的程式碼</li>
+<li>透過共用同一個連線，由於driver預設提供的connection pooling，可以同時處理多個要求</li>
+</ul>
+<p>透過driver來操作mongoDB <a href="https://docs.mongodb.com/ecosystem/drivers/node/" target="_blank" rel="noopener">文件</a></p>
+
+    </div>
+
+    
+    
+    
+        
+      
+
+      <footer class="post-footer">
+          
+            
+          
+          <div class="post-tags">
+            
+              <a href="/tags/backend/" rel="tag"># backend</a>
+            
+              <a href="/tags/database/" rel="tag"># database</a>
+            
+              <a href="/tags/mongoDB/" rel="tag"># mongoDB</a>
+            
+              <a href="/tags/mongo-shell/" rel="tag"># mongo shell</a>
+            
+          </div>
+        
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+              
+                <a href="/2019/08/23/mongodb/" rel="next" title="mongoDB 基礎2">
+                  <i class="fa fa-chevron-left"></i> mongoDB 基礎2
+                </a>
+              
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+              
+                <a href="/2019/09/02/nodeJS/" rel="prev" title="Use node.js to create web server">
+                  Use node.js to create web server <i class="fa fa-chevron-right"></i>
+                </a>
+              
+            </div>
+          </div>
+        
+      </footer>
+    
+  </div>
+  
+  
+  
+  </article>
+
+  </div>
+
+
+          </div>
+          
+
+        </div>
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+        
+        
+        
+        
+      
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Authentication-and-Authorization"><span class="nav-number">1.</span> <span class="nav-text">Authentication and Authorization</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#開啟使用者認證功能的方式啟動MongoDB"><span class="nav-number">1.1.</span> <span class="nav-text">開啟使用者認證功能的方式啟動MongoDB</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Encryption"><span class="nav-number">1.2.</span> <span class="nav-text">Encryption</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Perfromance-Fault-Tolerancy-amp-Deployment"><span class="nav-number">2.</span> <span class="nav-text">Perfromance, Fault Tolerancy&amp;Deployment</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Capped-collection"><span class="nav-number">2.1.</span> <span class="nav-text">Capped collection</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Replica-Sets"><span class="nav-number">2.2.</span> <span class="nav-text">Replica Sets</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Sharding-Horizontal-Scaling"><span class="nav-number">2.3.</span> <span class="nav-text">Sharding (Horizontal Scaling)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Deploy-mongoDB-server"><span class="nav-number">2.4.</span> <span class="nav-text">Deploy mongoDB server</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Transaction"><span class="nav-number">3.</span> <span class="nav-text">Transaction</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#From-shell-to-driver"><span class="nav-number">4.</span> <span class="nav-text">From shell to driver</span></a></li></ol></div>
+        
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">YENCHENG LIU</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+  <nav class="site-state motion-element">
+      <div class="site-state-item site-state-posts">
+        
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">8</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-categories">
+        
+          
+            <a href="/categories/">
+          
+        
+        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-name">categories</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-tags">
+        
+          
+            <a href="/tags/">
+          
+        
+        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-name">tags</span>
+        </a>
+      </div>
+    
+  </nav>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="mailto:yourname@gmail.com" title="E-Mail &rarr; mailto:yourname@gmail.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+    
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">YENCHENG LIU</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> v3.8.0</div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">Theme – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.4.0</div>
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+
+
+  <script src="/lib/anime.min.js?v=3.1.0"></script>
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+<script src="/js/utils.js?v=7.4.0"></script><script src="/js/motion.js?v=7.4.0"></script>
+<script src="/js/schemes/pisces.js?v=7.4.0"></script>
+
+<script src="/js/next-boot.js?v=7.4.0"></script>
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>
