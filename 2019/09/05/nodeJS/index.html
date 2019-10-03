@@ -58,15 +58,15 @@
   <meta name="description" content="將路由設計與應用的進入點分開通常應用程式會有一個進入點(ex. app.js)，藉此驅動其他的程式碼，如果將路由邏輯寫在同個檔案會使單一檔案變得很攏長。幸好express.js提供很方便的方法讓我們簡單使用自己所創造的路由 假設我們將管理員使用的路由寫在admin.js，把給使用者利用的路由寫在shop.js檔案">
 <meta name="keywords" content="javascript,nodeJS,server,backend">
 <meta property="og:type" content="article">
-<meta property="og:title" content="nodeJS - use express.js to create routes">
+<meta property="og:title" content="nodeJS - Use express.js to create routes and import public data">
 <meta property="og:url" content="http://yencheng.com/2019/09/05/nodeJS/index.html">
 <meta property="og:site_name" content="yencheng&#39;s code blog">
 <meta property="og:description" content="將路由設計與應用的進入點分開通常應用程式會有一個進入點(ex. app.js)，藉此驅動其他的程式碼，如果將路由邏輯寫在同個檔案會使單一檔案變得很攏長。幸好express.js提供很方便的方法讓我們簡單使用自己所創造的路由 假設我們將管理員使用的路由寫在admin.js，把給使用者利用的路由寫在shop.js檔案">
 <meta property="og:locale" content="en">
 <meta property="og:image" content="http://yencheng.com/2019/09/05/nodeJS/p1.png">
-<meta property="og:updated_time" content="2019-09-05T14:25:25.818Z">
+<meta property="og:updated_time" content="2019-09-06T08:38:22.263Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="nodeJS - use express.js to create routes">
+<meta name="twitter:title" content="nodeJS - Use express.js to create routes and import public data">
 <meta name="twitter:description" content="將路由設計與應用的進入點分開通常應用程式會有一個進入點(ex. app.js)，藉此驅動其他的程式碼，如果將路由邏輯寫在同個檔案會使單一檔案變得很攏長。幸好express.js提供很方便的方法讓我們簡單使用自己所創造的路由 假設我們將管理員使用的路由寫在admin.js，把給使用者利用的路由寫在shop.js檔案">
 <meta name="twitter:image" content="http://yencheng.com/2019/09/05/nodeJS/p1.png">
   <link rel="canonical" href="http://yencheng.com/2019/09/05/nodeJS/">
@@ -83,7 +83,7 @@
   };
 </script>
 
-  <title>nodeJS - use express.js to create routes | yencheng's code blog</title>
+  <title>nodeJS - Use express.js to create routes and import public data | yencheng's code blog</title>
   
 
 
@@ -243,7 +243,7 @@
       <meta itemprop="name" content="yencheng's code blog">
     </span>
       <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">nodeJS - use express.js to create routes
+        <h1 class="post-title" itemprop="name headline">nodeJS - Use express.js to create routes and import public data
 
           
         </h1>
@@ -259,11 +259,19 @@
                 
               
 
-              <time title="Created: 2019-09-05 15:39:13 / Modified: 23:25:25" itemprop="dateCreated datePublished" datetime="2019-09-05T15:39:13+09:00">2019-09-05</time>
+              <time title="Created: 2019-09-05 15:39:13" itemprop="dateCreated datePublished" datetime="2019-09-05T15:39:13+09:00">2019-09-05</time>
             </span>
           
             
 
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2019-09-06 17:38:22" itemprop="dateModified" datetime="2019-09-06T17:38:22+09:00">2019-09-06</time>
+              </span>
             
           
             <span class="post-meta-item">
@@ -306,27 +314,44 @@
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> express = <span class="built_in">require</span>(<span class="string">'express'</span>);</span><br><span class="line"><span class="keyword">const</span> bodyParser = <span class="built_in">require</span>(<span class="string">'body-parser'</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> adminRouter = <span class="built_in">require</span>(<span class="string">'./routes/admin'</span>);</span><br><span class="line"><span class="keyword">const</span> shopRouter = <span class="built_in">require</span>(<span class="string">'./routes/shop'</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> app = express();</span><br><span class="line"></span><br><span class="line">app.use(bodyParser.urlencoded(&#123;<span class="attr">extended</span>: <span class="literal">false</span>&#125;));</span><br><span class="line"></span><br><span class="line">app.use(shopRouter);</span><br><span class="line">app.use(adminRouter);</span><br><span class="line"></span><br><span class="line">app.listen(<span class="number">3000</span>);</span><br></pre></td></tr></table></figure>
 
 <hr>
-<h3 id="當路由不符合任何一個設計的路徑時回傳一個404-page"><a href="#當路由不符合任何一個設計的路徑時回傳一個404-page" class="headerlink" title="當路由不符合任何一個設計的路徑時回傳一個404 page"></a>當路由不符合任何一個設計的路徑時回傳一個404 page</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//如沒有特別設定路徑，預設路徑為'/'，以'/'開頭的都會符合</span></span><br><span class="line">app.use(<span class="function">(<span class="params">req, res, next</span>) =&gt;</span> &#123;</span><br><span class="line">    res.status(<span class="number">404</span>).send(<span class="string">"&lt;h1&gt;Page not found&lt;/h1&gt;"</span>)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<h2 id="當路由不符合任何一個設計的路徑時回傳一個404-page"><a href="#當路由不符合任何一個設計的路徑時回傳一個404-page" class="headerlink" title="當路由不符合任何一個設計的路徑時回傳一個404 page"></a>當路由不符合任何一個設計的路徑時回傳一個404 page</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//如沒有特別設定路徑，預設路徑為'/'，以'/'開頭的都會符合</span></span><br><span class="line">app.use(<span class="function">(<span class="params">req, res, next</span>) =&gt;</span> &#123;</span><br><span class="line">    res.status(<span class="number">404</span>).send(<span class="string">"&lt;h1&gt;Page not found&lt;/h1&gt;"</span>)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
 
 <hr>
-<h3 id="共同路徑與相同路徑"><a href="#共同路徑與相同路徑" class="headerlink" title="共同路徑與相同路徑"></a>共同路徑與相同路徑</h3><p>可以使用相同的路徑來處理不同類型的請求</p>
+<h2 id="共同路徑與相同路徑"><a href="#共同路徑與相同路徑" class="headerlink" title="共同路徑與相同路徑"></a>共同路徑與相同路徑</h2><p>可以使用相同的路徑來處理不同類型的請求</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">router.get(<span class="string">'/admin/add-product'</span>, (req, res, next) =&gt; &#123;</span><br><span class="line">    res.send(<span class="string">'&lt;form action="/product" method="POST"&gt;&lt;input type="text" name="title"&gt;&lt;button type="submit"&gt;Add Product&lt;/button&gt;&lt;/form&gt;'</span>);</span><br><span class="line">  &#125;);</span><br><span class="line">  </span><br><span class="line">router.post(<span class="string">'/admin/add-product'</span>, (req, res, next) =&gt; &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(req.body);</span><br><span class="line">    res.redirect(<span class="string">'/'</span>);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
 
-<p>如果路徑中有重複的部分，可以座以下更動<br>app.js</p>
+<p>如果路徑中有重複的部分，可以做以下更動<br>app.js</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> express = <span class="built_in">require</span>(<span class="string">'express'</span>);</span><br><span class="line"><span class="keyword">const</span> bodyParser = <span class="built_in">require</span>(<span class="string">'body-parser'</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> adminRouter = <span class="built_in">require</span>(<span class="string">'./routes/admin'</span>);</span><br><span class="line"><span class="keyword">const</span> shopRouter = <span class="built_in">require</span>(<span class="string">'./routes/shop'</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> app = express();</span><br><span class="line"></span><br><span class="line">app.use(bodyParser.urlencoded(&#123;<span class="attr">extended</span>: <span class="literal">false</span>&#125;));</span><br><span class="line"></span><br><span class="line">app.use(shopRouter);</span><br><span class="line">app.use(<span class="string">'/admin'</span>, adminRouter);</span><br><span class="line"></span><br><span class="line">app.listen(<span class="number">3000</span>);</span><br></pre></td></tr></table></figure>
 
 <p>如此一來admin.js改成以下</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// /admin/add-product =&gt; GET</span></span><br><span class="line">router.get(<span class="string">'/add-product'</span>, (req, res, next) =&gt; &#123;</span><br><span class="line">    res.send(<span class="string">'&lt;form action="/admin/add-product" method="POST"&gt;&lt;input type="text" name="title"&gt;&lt;button type="submit"&gt;Add Product&lt;/button&gt;&lt;/form&gt;'</span>);</span><br><span class="line">  &#125;);</span><br><span class="line"></span><br><span class="line"><span class="comment">// /admin/add-product =&gt; POST</span></span><br><span class="line">router.post(<span class="string">'/add-product'</span>, (req, res, next) =&gt; &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(req.body);</span><br><span class="line">    res.redirect(<span class="string">'/'</span>);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
 
 <hr>
-<h3 id="回傳html檔案及正確的檔案路徑"><a href="#回傳html檔案及正確的檔案路徑" class="headerlink" title="回傳html檔案及正確的檔案路徑"></a>回傳html檔案及正確的檔案路徑</h3><p>回傳完整的html檔案可以使用res.sendFile(‘路徑’)，但這個路徑必須以作業系統的根部路為基礎的絕對路徑，且路徑的顯示方式可能因作業系統不同而不同，所以我們要使用另一個nodeJS core module，path</p>
+<h1 id="回傳html檔案及正確的檔案路徑"><a href="#回傳html檔案及正確的檔案路徑" class="headerlink" title="回傳html檔案及正確的檔案路徑"></a>回傳html檔案及正確的檔案路徑</h1><p>回傳完整的html檔案可以使用res.sendFile(‘路徑’)，但這個路徑必須以作業系統的根部路為基礎的絕對路徑，且路徑的顯示方式可能因作業系統不同而不同，所以我們要使用另一個nodeJS core module，path</p>
 <p>假設我們專案內檔案結構如下圖</p>
 <div align="left">
     <img src="p1.png" style="width:50%; display:inline;">
 </div>
 
+<p>admin.js</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> path = <span class="built_in">require</span>(<span class="string">'path'</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> express = <span class="built_in">require</span>(<span class="string">'express'</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> router = express.Router();</span><br><span class="line"><span class="comment">//__dirname為根據根目錄到該檔案的絕對路徑</span></span><br><span class="line">router.get(<span class="string">'/add-product'</span>, (req, res, next) =&gt; &#123;</span><br><span class="line">    res.sendFile(path.join(__dirname, <span class="string">'../'</span>, <span class="string">'views'</span>, <span class="string">'add-product.html'</span>))</span><br><span class="line">&#125;);</span><br><span class="line">  </span><br><span class="line">router.post(<span class="string">'/product'</span>, (req, res, next) =&gt; &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(req.body);</span><br><span class="line">    res.redirect(<span class="string">'/'</span>);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="built_in">module</span>.exports = router;</span><br></pre></td></tr></table></figure>
 
+<p>如果不想每次都要根據不同的檔案路徑來輸入不同的路徑字串，可以統一使用進入點當作絕對路徑，再輸入相對路徑<br>首先創個資料夾，裡面新增一個<code>path.js</code>檔案</p>
+<p>path.js</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> path = <span class="built_in">require</span>(<span class="string">'path'</span>);</span><br><span class="line"><span class="comment">//process為node的global變數，process.mainModule.filename會取得進入點(app.js)的絕對路徑</span></span><br><span class="line"><span class="built_in">module</span>.exports = path.dirname(process.mainModule.filename);</span><br></pre></td></tr></table></figure>
+
+<p>之後我們可以在每個需要routes路徑的檔案引入<code>path.js</code>檔，再根據整個專案作為根目錄輸入正確的相對路徑</p>
+<p>admin.js</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> path = <span class="built_in">require</span>(<span class="string">'path'</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> express = <span class="built_in">require</span>(<span class="string">'express'</span>);</span><br><span class="line"><span class="keyword">const</span> rootDir = <span class="built_in">require</span>(<span class="string">'../util/path'</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> router = express.Router();</span><br><span class="line"></span><br><span class="line">router.get(<span class="string">'/add-product'</span>, (req, res, next) =&gt; &#123;</span><br><span class="line">    res.sendFile(path.join(rootDir, <span class="string">'views'</span>, <span class="string">'add-product.html'</span>))</span><br><span class="line">&#125;);</span><br><span class="line">  </span><br><span class="line">router.post(<span class="string">'/product'</span>, (req, res, next) =&gt; &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(req.body);</span><br><span class="line">    res.redirect(<span class="string">'/'</span>);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="built_in">module</span>.exports = router;</span><br></pre></td></tr></table></figure>
+
+<h1 id="引入靜態資料"><a href="#引入靜態資料" class="headerlink" title="引入靜態資料"></a>引入靜態資料</h1><p>html檔案內直接撰寫CSS雖然可以運作，但是為了專案的整潔及方便管理，需要把CSS作為外部檔案再引入html內，直接使用路徑引入<code>style</code>將無法運作，所以我們需要express幫我們定義靜態檔案的資料夾位置</p>
+<p>在app.js加入這一行<br>app.js</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//express.static用來服務靜態檔案</span></span><br><span class="line">app.use(express.static(path.join(__dirname, <span class="string">'public'</span>)));</span><br></pre></td></tr></table></figure>
+
+<p>接著在html檔案內就可以引入放在<code>public</code>資料夾內的CSS檔案或圖片<br><code>&lt;link rel= &quot;stylesheet&quot; href = &quot;css/main.css&quot;&gt;</code><br>往後引入靜態檔案時 (CSS, js, picture etc.)，node就會先去尋找是否在我們設定的static路徑裡面，而這個路徑可以設定複數個。</p>
+<h1 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h1><ul>
+<li>express<a href="https://expressjs.com/en/starter/installing.html" target="_blank" rel="noopener">官方文件</a></li>
+</ul>
 
     </div>
 
@@ -367,6 +392,10 @@
             <span class="post-nav-divider"></span>
 
             <div class="post-nav-prev post-nav-item">
+              
+                <a href="/2019/09/06/nodeJS/" rel="prev" title="nodeJS - Template engine">
+                  nodeJS - Template engine <i class="fa fa-chevron-right"></i>
+                </a>
               
             </div>
           </div>
@@ -415,7 +444,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#將路由設計與應用的進入點分開"><span class="nav-number">1.</span> <span class="nav-text">將路由設計與應用的進入點分開</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#當路由不符合任何一個設計的路徑時回傳一個404-page"><span class="nav-number">1.0.1.</span> <span class="nav-text">當路由不符合任何一個設計的路徑時回傳一個404 page</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#共同路徑與相同路徑"><span class="nav-number">1.0.2.</span> <span class="nav-text">共同路徑與相同路徑</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#回傳html檔案及正確的檔案路徑"><span class="nav-number">1.0.3.</span> <span class="nav-text">回傳html檔案及正確的檔案路徑</span></a></li></ol></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#將路由設計與應用的進入點分開"><span class="nav-number">1.</span> <span class="nav-text">將路由設計與應用的進入點分開</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#當路由不符合任何一個設計的路徑時回傳一個404-page"><span class="nav-number">1.1.</span> <span class="nav-text">當路由不符合任何一個設計的路徑時回傳一個404 page</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#共同路徑與相同路徑"><span class="nav-number">1.2.</span> <span class="nav-text">共同路徑與相同路徑</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#回傳html檔案及正確的檔案路徑"><span class="nav-number">2.</span> <span class="nav-text">回傳html檔案及正確的檔案路徑</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#引入靜態資料"><span class="nav-number">3.</span> <span class="nav-text">引入靜態資料</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#參考資料"><span class="nav-number">4.</span> <span class="nav-text">參考資料</span></a></li></ol></div>
         
       </div>
       <!--/noindex-->
@@ -430,7 +459,7 @@
         
           <a href="/archives/">
         
-          <span class="site-state-item-count">8</span>
+          <span class="site-state-item-count">9</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -456,7 +485,7 @@
             <a href="/tags/">
           
         
-        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-count">14</span>
         <span class="site-state-item-name">tags</span>
         </a>
       </div>

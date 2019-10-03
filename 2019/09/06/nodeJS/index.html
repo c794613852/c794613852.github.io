@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+
+
+
+
+
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.8.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.4.0">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.4.0">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.4.0">
+  <link rel="mask-icon" href="/images/logo.svg?v=7.4.0" color="#222">
+
+<link rel="stylesheet" href="/css/main.css?v=7.4.0">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.4.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: '',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: 'Copy',
+      copy_success: 'Copied',
+      copy_failure: 'Copy failed'
+    },
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="Template engine是什麼模板引擎幫助我們在靜態的html檔案中插入一些動態的變數，使頁面的呈現可以實際與資料互動。模板引擎可以讓介面與資料分離，提升開發的效率使分工更明確，還可以減少重複程式碼的產生。經過模板引擎的編譯，最終會回傳一般的html檔案到用戶端。">
+<meta name="keywords" content="javascript,nodeJS,server,backend,template engine">
+<meta property="og:type" content="article">
+<meta property="og:title" content="nodeJS - Template engine">
+<meta property="og:url" content="http://yencheng.com/2019/09/06/nodeJS/index.html">
+<meta property="og:site_name" content="yencheng&#39;s code blog">
+<meta property="og:description" content="Template engine是什麼模板引擎幫助我們在靜態的html檔案中插入一些動態的變數，使頁面的呈現可以實際與資料互動。模板引擎可以讓介面與資料分離，提升開發的效率使分工更明確，還可以減少重複程式碼的產生。經過模板引擎的編譯，最終會回傳一般的html檔案到用戶端。">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2019-10-03T08:06:23.033Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="nodeJS - Template engine">
+<meta name="twitter:description" content="Template engine是什麼模板引擎幫助我們在靜態的html檔案中插入一些動態的變數，使頁面的呈現可以實際與資料互動。模板引擎可以讓介面與資料分離，提升開發的效率使分工更明確，還可以減少重複程式碼的產生。經過模板引擎的編譯，最終會回傳一般的html檔案到用戶端。">
+  <link rel="canonical" href="http://yencheng.com/2019/09/06/nodeJS/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>nodeJS - Template engine | yencheng's code blog</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">yencheng's code blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+      
+      
+      
+        
+        <li class="menu-item menu-item-home">
+      
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>Home</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-about">
+      
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>About</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-tags">
+      
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>Tags</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-categories">
+      
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>Categories</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-archives">
+      
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>Archives</a>
+
+  </li>
+  </ul>
+
+</nav>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+            
+
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+      <article itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block post">
+    <link itemprop="mainEntityOfPage" href="http://yencheng.com/2019/09/06/nodeJS/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="YENCHENG LIU">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="yencheng's code blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">nodeJS - Template engine
+
+          
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              
+                
+              
+
+              <time title="Created: 2019-09-06 16:10:37" itemprop="dateCreated datePublished" datetime="2019-09-06T16:10:37+09:00">2019-09-06</time>
+            </span>
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2019-10-03 17:06:23" itemprop="dateModified" datetime="2019-10-03T17:06:23+09:00">2019-10-03</time>
+              </span>
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/NodeJS/" itemprop="url" rel="index"><span itemprop="name">NodeJS</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <hr>
+<h1 id="Template-engine是什麼"><a href="#Template-engine是什麼" class="headerlink" title="Template engine是什麼"></a>Template engine是什麼</h1><p>模板引擎幫助我們在靜態的html檔案中插入一些動態的變數，使頁面的呈現可以實際與資料互動。模板引擎可以讓介面與資料分離，提升開發的效率使分工更明確，還可以減少重複程式碼的產生。<br>經過模板引擎的編譯，最終會回傳一般的html檔案到用戶端。</p>
+<a id="more"></a>
+
+<h1 id="使用template-engine渲染html"><a href="#使用template-engine渲染html" class="headerlink" title="使用template engine渲染html"></a>使用template engine渲染html</h1><h2 id="利用express來設定template-engine"><a href="#利用express來設定template-engine" class="headerlink" title="利用express來設定template engine"></a>利用express來設定template engine</h2><p>express提供我們設定專案所使用的模板引擎，省去我們自行設定模板引擎的作業，減少開發者撰寫程式碼的負擔<br>首先必須安裝模板引擎到專案中，以<code>pug</code>為例 (模板引擎有很多種，需自行分析優缺點選擇喜歡的模板引擎)<br><code>npm install --save pug</code><br>安裝好後在app.js設定使用的模板引擎，新增<code>app.set(&#39;view engine&#39;, &#39;pug&#39;);</code>到該檔中<br><code>app.use()</code>可以讓我們設定global變數到express的application中 (name: value)，其中有些<code>name</code>是用來改變server的行為的，有哪些特殊的<code>name</code>可以參考<a href="https://expressjs.com/en/4x/api.html#app.set" target="_blank" rel="noopener">文件</a><br>因此我們設定<code>view engine</code>這個特殊的<code>name</code>為<code>pug</code>，告訴express接下來這個專案會使用<code>pug</code>作為模板引擎而不是其他的模板引擎。<br>設定模板引擎的種類後，還必須告訴express必須渲染的動態檔案 (ex. index.pug)放在哪個資料夾<br>所以再加入以下這行<br><code>app.set(&#39;views&#39;, &#39;views&#39;)</code><br>後面的<code>views</code>為檔案夾名稱 (預設其實已經是views，但可以根據自己檔案夾命名更改)，這樣一來express就知道該去哪裡找這些檔案，之後將原本撰寫html的方式改為pug的特殊語法，副檔名也必須是<code>.pug</code></p>
+<p>根據不同的engine可能需要在程式碼中使用<code>require()</code>引入，例如pug不用但handlebars要<br>handlebars的情況下要加這兩行</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> expressHbs = <span class="built_in">require</span>(<span class="string">'express-handlebars'</span>);</span><br><span class="line"><span class="comment">//...some express code</span></span><br><span class="line">app.engine(<span class="string">'hbs'</span>, expressHbs()) <span class="comment">//hbs為自己命名，之後創建的模組檔案副檔名必須為`.hbs`</span></span><br><span class="line">app.set(<span class="string">'view engine'</span>, <span class="string">'hbs'</span>)<span class="comment">//這行跟pug一樣</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="實際渲染-pug檔產生html給用戶端"><a href="#實際渲染-pug檔產生html給用戶端" class="headerlink" title="實際渲染.pug檔產生html給用戶端"></a>實際渲染.pug檔產生html給用戶端</h2><p>還有最後一步，原本使用<code>res.sendFile()</code>來回傳html檔案給前端，使用模板引擎後必須改為以下<br><code>res.render()</code><br>所以在我們處理routes的檔案中會變成<br>shop.js</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> path = <span class="built_in">require</span>(<span class="string">'path'</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> express = <span class="built_in">require</span>(<span class="string">'express'</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> rootDir = <span class="built_in">require</span>(<span class="string">'../util/path'</span>);</span><br><span class="line"><span class="keyword">const</span> router = express.Router();</span><br><span class="line"></span><br><span class="line">router.get(<span class="string">'/'</span>, (req, res, next) =&gt; &#123;</span><br><span class="line">    res.render(<span class="string">'shop'</span>);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="built_in">module</span>.exports = router;</span><br></pre></td></tr></table></figure>
+
+<p>這裡<code>res.render()</code>裡面不需要包含完整的路徑是因為express已經知道該去哪裡找這些檔案 (views)，且也已經知道使用的模板引擎種類所以可以省略副檔名<code>.pug</code></p>
+<h2 id="Html語法轉Pug語法"><a href="#Html語法轉Pug語法" class="headerlink" title="Html語法轉Pug語法"></a>Html語法轉Pug語法</h2><p>pug的撰寫方式與html非常相像，遵循一定的規則就可以輕鬆改寫。pug語法多了一些邏輯判斷和迴圈幫助減少重複程式碼的撰寫，以及pug可以插入變數，根據變數渲染網頁達到動態的效果。</p>
+<p>pug語法重視縮排，如果一個標籤被上層的標籤包住，必須往內縮一排<br>pug語法不需要結尾標籤</p>
+<p>範例如下</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">header</span> <span class="attr">class</span>=<span class="string">"main-header"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">nav</span> <span class="attr">class</span>=<span class="string">"main-header__nav"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">ul</span> <span class="attr">class</span>=<span class="string">"main-header__item-list"</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">li</span> <span class="attr">class</span>=<span class="string">"main-header__item"</span>&gt;</span><span class="tag">&lt;<span class="name">a</span> <span class="attr">class</span>=<span class="string">"active"</span> <span class="attr">href</span>=<span class="string">"/"</span>&gt;</span>Shop<span class="tag">&lt;/<span class="name">a</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">li</span> <span class="attr">class</span>=<span class="string">"main-header__item"</span>&gt;</span><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"/admin/add-product"</span>&gt;</span>Add Product<span class="tag">&lt;/<span class="name">a</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">ul</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">nav</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">header</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>轉換成pug語法後</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">header.main-header</span><br><span class="line">nav.main-header__nav</span><br><span class="line">    ul.main-header__item-list</span><br><span class="line">        li.main-header__item</span><br><span class="line">            a.active(href=&quot;/&quot;) Shop</span><br><span class="line">        li.main-header__item</span><br><span class="line">            a(href=&quot;/admin/add-product&quot;) Add Product</span><br></pre></td></tr></table></figure>
+
+<p>改變一下標籤, class, 屬性的表示方法</p>
+<p>如果要在pug使用動態變數，首先要在渲染pug檔指定加上需要傳遞的變數，如下<br>shop.js</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">router.get(<span class="string">'/'</span>, (req, res, next) =&gt; &#123;</span><br><span class="line">  <span class="keyword">const</span> products = adminData.products;</span><br><span class="line">  res.render(<span class="string">'shop'</span>, &#123;<span class="attr">prods</span>: products, <span class="attr">docTitle</span>: <span class="string">'Shop'</span>&#125;);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p><code>res.render()</code>的第二個變數傳遞一個物件結構，使用key value來傳遞<br>接著在pug檔使用以下方式插入變數</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">if prods.length &gt; 0</span><br><span class="line">    .grid</span><br><span class="line">        each product in prods</span><br><span class="line">            article.card.product-item</span><br><span class="line">                header.card__header</span><br><span class="line">                    h1.product__title #&#123;product.title&#125;</span><br><span class="line">                div.card__image</span><br><span class="line">                    img(src=&quot;xxx&quot;, alt=&quot;A Book&quot;)</span><br><span class="line">                div.card__content</span><br><span class="line">                    h2.product__price $19.99</span><br><span class="line">                    p.product__description A very interesting book about so many even more interesting things!</span><br><span class="line">                .card__actions</span><br><span class="line">                    button.btn Add to Cart</span><br><span class="line">else</span><br><span class="line">    h1 No Products</span><br></pre></td></tr></table></figure>
+
+<h2 id="共同Layout"><a href="#共同Layout" class="headerlink" title="共同Layout"></a>共同Layout</h2><p>在很多時候不同的頁面會有相同的設計，例如每個頁面都有一個導覽列，這樣的話會有同樣的代碼重複在不同的檔案。這時候可以使用pug創造一個共同的layout，每個頁面都可以引入這個layout再根據各自需求去修改它</p>
+<p>首先可以在<code>views</code>資料夾再創個<code>layouts</code>資料夾，再新增一個pug檔<br>main-layout.pug</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">html(lang=&quot;en&quot;)</span><br><span class="line">    head</span><br><span class="line">        meta(charset=&quot;UTF-8&quot;)</span><br><span class="line">        meta(name=&quot;viewport&quot;, content=&quot;width=device-width, initial-scale=1.0&quot;)</span><br><span class="line">        meta(http-equiv=&quot;X-UA-Compatible&quot;, content=&quot;ie=edge&quot;)</span><br><span class="line">        title #&#123;pageTitle&#125;</span><br><span class="line">        link(rel=&quot;stylesheet&quot;, href=&quot;/css/main.css&quot;)</span><br><span class="line">        block styles</span><br><span class="line">    body   </span><br><span class="line">        header.main-header</span><br><span class="line">            nav.main-header__nav</span><br><span class="line">                ul.main-header__item-list</span><br><span class="line">                    li.main-header__item</span><br><span class="line">                        a(href=&quot;/&quot;, class=(path === &apos;/&apos; ? &apos;active&apos; : &apos;&apos;)) Shop</span><br><span class="line">                    li.main-header__item</span><br><span class="line">                        a(href=&quot;/admin/add-product&quot;, class=(path === &apos;/admin/add-product&apos; ? &apos;active&apos; : &apos;&apos;)) Add Product</span><br><span class="line">        block content</span><br></pre></td></tr></table></figure>
+
+<p>透過在layout中安插佔位空間(placeholder)來提供客製化的空間，例如代碼中<br><code>block styles</code><br><code>block content</code><br>的部分，這裡被其他pug檔引入後可以做各自的修改</p>
+<p>也可以根據條件加入不同的css class<br><code>a(href=&quot;/admin/add-product&quot;, class=(path === &#39;/admin/add-product&#39; ? &#39;active&#39; : &#39;&#39;))</code></p>
+<p><code>add-products.pug</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">extends layouts/main-layout.pug</span><br><span class="line"></span><br><span class="line">block styles</span><br><span class="line">    link(rel=&quot;stylesheet&quot;, href=&quot;/css/forms.css&quot;)</span><br><span class="line">    link(rel=&quot;stylesheet&quot;, href=&quot;/css/product.css&quot;)</span><br><span class="line"></span><br><span class="line">block content</span><br><span class="line">    main</span><br><span class="line">        form.product-form(action=&quot;/admin/add-product&quot;, method=&quot;POST&quot;)</span><br><span class="line">            .form-control</span><br><span class="line">                label(for=&quot;title&quot;) Title</span><br><span class="line">                input(type=&quot;text&quot;, name=&quot;title&quot;)#title</span><br><span class="line">            button.btn(type=&quot;submit&quot;) Add Product</span><br></pre></td></tr></table></figure>
+
+<h2 id="3種template-engine-官方文件"><a href="#3種template-engine-官方文件" class="headerlink" title="3種template engine 官方文件"></a>3種template engine 官方文件</h2><ul>
+<li>PUG<a href="https://pugjs.org/api/getting-started.html" target="_blank" rel="noopener">官方文件</a></li>
+<li>handlebars<a href="https://handlebarsjs.com/" target="_blank" rel="noopener">官方文件</a></li>
+<li>ejs<a href="http://ejs.co/#docs" target="_blank" rel="noopener">官方文件</a></li>
+</ul>
+
+    </div>
+
+    
+    
+    
+        
+      
+
+      <footer class="post-footer">
+          
+            
+          
+          <div class="post-tags">
+            
+              <a href="/tags/javascript/" rel="tag"># javascript</a>
+            
+              <a href="/tags/nodeJS/" rel="tag"># nodeJS</a>
+            
+              <a href="/tags/server/" rel="tag"># server</a>
+            
+              <a href="/tags/backend/" rel="tag"># backend</a>
+            
+              <a href="/tags/template-engine/" rel="tag"># template engine</a>
+            
+          </div>
+        
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+              
+                <a href="/2019/09/05/nodeJS/" rel="next" title="nodeJS - Use express.js to create routes and import public data">
+                  <i class="fa fa-chevron-left"></i> nodeJS - Use express.js to create routes and import public data
+                </a>
+              
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+              
+            </div>
+          </div>
+        
+      </footer>
+    
+  </div>
+  
+  
+  
+  </article>
+
+  </div>
+
+
+          </div>
+          
+
+        </div>
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+        
+        
+        
+        
+      
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Template-engine是什麼"><span class="nav-number">1.</span> <span class="nav-text">Template engine是什麼</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#使用template-engine渲染html"><span class="nav-number">2.</span> <span class="nav-text">使用template engine渲染html</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#利用express來設定template-engine"><span class="nav-number">2.1.</span> <span class="nav-text">利用express來設定template engine</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#實際渲染-pug檔產生html給用戶端"><span class="nav-number">2.2.</span> <span class="nav-text">實際渲染.pug檔產生html給用戶端</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Html語法轉Pug語法"><span class="nav-number">2.3.</span> <span class="nav-text">Html語法轉Pug語法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#共同Layout"><span class="nav-number">2.4.</span> <span class="nav-text">共同Layout</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3種template-engine-官方文件"><span class="nav-number">2.5.</span> <span class="nav-text">3種template engine 官方文件</span></a></li></ol></li></ol></div>
+        
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">YENCHENG LIU</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+  <nav class="site-state motion-element">
+      <div class="site-state-item site-state-posts">
+        
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">9</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-categories">
+        
+          
+            <a href="/categories/">
+          
+        
+        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-name">categories</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-tags">
+        
+          
+            <a href="/tags/">
+          
+        
+        <span class="site-state-item-count">14</span>
+        <span class="site-state-item-name">tags</span>
+        </a>
+      </div>
+    
+  </nav>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="mailto:yourname@gmail.com" title="E-Mail &rarr; mailto:yourname@gmail.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+    
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">YENCHENG LIU</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> v3.8.0</div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">Theme – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.4.0</div>
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+
+
+  <script src="/lib/anime.min.js?v=3.1.0"></script>
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+<script src="/js/utils.js?v=7.4.0"></script><script src="/js/motion.js?v=7.4.0"></script>
+<script src="/js/schemes/pisces.js?v=7.4.0"></script>
+
+<script src="/js/next-boot.js?v=7.4.0"></script>
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>
